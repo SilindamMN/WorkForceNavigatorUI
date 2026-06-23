@@ -1,15 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AuthserviceService } from '../../core/services/auth.service';
+import { UserRegister } from '../../core/models/auth/register';
+import { Router } from '@angular/router';
+import { UserLogin } from '../../core/models/auth/login';
 
 @Component({
   selector: 'app-auth-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './auth-page.component.html',
   styleUrls: ['./auth-page.component.css']
 })
 export class AuthPageComponent {
 
+  registerUser: UserRegister = new UserRegister();
+  loginUser : UserLogin = new UserLogin();
+  authService= inject(AuthserviceService);
+  router = inject(Router);
   isLogin = true;
 
   switchToLogin() {
@@ -18,5 +27,27 @@ export class AuthPageComponent {
 
   switchToRegister() {
     this.isLogin = false;
+  }
+  RegisterUser(){
+    this.authService.Register(this.registerUser).subscribe(
+      (response) => {
+        (response.status === 200) ? this.isLogin = true : alert(response.statusText);
+      },
+      (error) => {
+        alert(error.error.message);
+      }
+    );
+  }
+
+  LoginUser() {
+    this.authService.Login(this.loginUser).subscribe(
+      (response) => {
+        this.authService.saveAuthData(response);
+        this.router.navigate(['/dashboard']);
+      },
+      (error) => {
+        alert(error.error.message);
+      }
+    );
   }
 }
