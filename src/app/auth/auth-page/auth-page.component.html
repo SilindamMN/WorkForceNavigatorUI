@@ -7,11 +7,11 @@
 
       <h4 class="text-center mb-4">Welcome Back</h4>
 
-      <input type="email" class="form-control mb-3" placeholder="Email address" />
+      <input type="email" class="form-control mb-3" placeholder="Email address" [(ngModel)]="loginUser.username" name="email" />
 
-      <input type="password" class="form-control mb-3" placeholder="Password" />
+      <input type="password" class="form-control mb-3" placeholder="Password" [(ngModel)]="loginUser.password" name="password" />
 
-      <button class="btn btn-primary w-100 mb-3">
+      <button class="btn btn-primary w-100 mb-3" (click)="LoginUser()">
         Sign in
       </button>
 
@@ -29,19 +29,17 @@
 
       <h4 class="text-center mb-4">Create Account</h4>
 
-      <input type="text" class="form-control mb-3" placeholder="Username" />
+      <input type="text" class="form-control mb-3" placeholder="Username" [(ngModel)]="registerUser.username" name="username" />
 
-      <input type="text" class="form-control mb-3" placeholder="First Name" />
+      <input type="text" class="form-control mb-3" placeholder="First Name" [(ngModel)]="registerUser.firstName" name="firstName" />
 
-      <input type="text" class="form-control mb-3" placeholder="Last Name" />
+      <input type="text" class="form-control mb-3" placeholder="Last Name" [(ngModel)]="registerUser.lastName" name="lastName" />
 
-      <input type="email" class="form-control mb-3" placeholder="Email address" />
+      <input type="email" class="form-control mb-3" placeholder="Email address" [(ngModel)]="registerUser.email" name="email" />
 
-      <input type="password" class="form-control mb-3" placeholder="Password" />
+      <input type="password" class="form-control mb-3" placeholder="Password" [(ngModel)]="registerUser.password" name="password" />
 
-      <input type="password" class="form-control mb-3" placeholder="Confirm password" />
-
-      <button class="btn btn-success w-100 mb-3">
+      <button class="btn btn-success w-100 mb-3" (click)="RegisterUser()">
         Create account
       </button>
 
