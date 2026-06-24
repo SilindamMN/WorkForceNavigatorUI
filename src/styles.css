@@ -1,9 +1,13 @@
-@import '@fortawesome/fontawesome-free/css/all.css';
-
-html, body {
-  height: 100%;
+/* src/styles.css — global, not component-scoped */
+:root {
+  --bg-page: #f4f8fb;
+  --bg-surface: #ffffff;
+  --bg-subtle: #eef2f7;
+  --bg-dark: #0b1220;
+  /* ...rest of the palette from before */
 }
 
-body {
+html, body {
   margin: 0;
+  background: var(--bg-page);
 }

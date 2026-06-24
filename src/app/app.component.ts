@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AuthPageComponent } from "./auth/auth-page/auth-page.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AuthPageComponent],
+  standalone: true,
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'workforcenavigatorui';

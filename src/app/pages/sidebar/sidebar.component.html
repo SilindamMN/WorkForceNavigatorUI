@@ -1,0 +1,121 @@
+<div class="app-sidebar">
+
+  <div class="ui vertical borderless fluid text menu">
+
+    <!-- DASHBOARD -->
+    <button type="button"
+            class="item"
+            [class.active]="activeLink === 'Dashboard'"
+            (click)="setActive('Dashboard')">
+      <i class="home icon"></i>
+      Dashboard
+    </button>
+
+    <div class="divider"></div>
+
+    <!-- ================= HR ================= -->
+    <div class="group">
+
+      <button type="button"
+              class="group-title"
+              [class.open]="toggleHR"
+              [attr.aria-expanded]="toggleHR"
+              (click)="toggleHR = !toggleHR">
+        <div class="left">
+          <i class="users icon"></i>
+          <span>HR</span>
+        </div>
+        <i class="dropdown icon"></i>
+      </button>
+
+      <div class="submenu-wrapper" [class.open]="toggleHR">
+        <div class="submenu">
+          <button type="button" class="item" [class.active]="activeLink === 'Clients'" (click)="setActive('Clients')"><i class="users icon"></i> Clients</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Departments'" (click)="setActive('Departments')"><i class="sitemap icon"></i> Departments</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Managers'" (click)="setActive('Managers')"><i class="user tie  icon"></i> Managers</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Job Titles'" (click)="setActive('Job Titles')"><i class="tag icon"></i> Job Titles</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Teams'" (click)="setActive('Teams')"><i class="users icon"></i> Teams</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ================= WORK ================= -->
+    <div class="group">
+
+      <button type="button"
+              class="group-title"
+              [class.open]="toggleWork"
+              [attr.aria-expanded]="toggleWork"
+              (click)="toggleWork = !toggleWork">
+        <div class="left">
+          <i class="folder open icon"></i>
+          <span>Work</span>
+        </div>
+        <i class="dropdown icon"></i>
+      </button>
+
+      <div class="submenu-wrapper" [class.open]="toggleWork">
+        <div class="submenu">
+            <button type="button" class="item" [class.active]="activeLink === 'Projects'" (click)="setActive('Projects')"><i class="briefcase icon"></i> Projects</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Tasks'" (click)="setActive('Tasks')"><i class="tasks icon"></i> Tasks</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Timesheets'" (click)="setActive('Timesheets')"><i class="clock icon"></i> Timesheets</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ================= LEAVES ================= -->
+    <div class="group">
+
+      <button type="button"
+              class="group-title"
+              [class.open]="toggleLeaves"
+              [attr.aria-expanded]="toggleLeaves"
+              (click)="toggleLeaves = !toggleLeaves">
+        <div class="left">
+          <i class="calendar alternate icon"></i>
+          <span>Leaves</span>
+        </div>
+        <i class="dropdown icon"></i>
+      </button>
+
+      <div class="submenu-wrapper" [class.open]="toggleLeaves">
+        <div class="submenu">
+          <button type="button" class="item" [class.active]="activeLink === 'Leave Requests'" (click)="setActive('Leave Requests')"><i class="paper plane icon"></i> Leave Requests</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Allocations'" (click)="setActive('Allocations')"><i class="calendar check icon"></i> Allocations</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Leave Types'" (click)="setActive('Leave Types')"><i class="calendar plus icon"></i> Leave Types</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ================= SYSTEM ================= -->
+    <div class="group">
+
+      <button type="button"
+              class="group-title"
+              [class.open]="toggleSystem"
+              [attr.aria-expanded]="toggleSystem"
+              (click)="toggleSystem = !toggleSystem">
+        <div class="left">
+          <i class="cogs icon"></i>
+          <span>System</span>
+        </div>
+        <i class="dropdown icon"></i>
+      </button>
+
+      <div class="submenu-wrapper" [class.open]="toggleSystem">
+        <div class="submenu">
+          <button type="button" class="item" [class.active]="activeLink === 'Messages'" (click)="setActive('Messages')"><i class="envelope icon"></i> Messages</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Logs'" (click)="setActive('Logs')"><i class="clipboard list icon"></i> Logs</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
