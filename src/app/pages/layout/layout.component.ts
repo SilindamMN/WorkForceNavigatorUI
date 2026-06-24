@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopbarComponent } from '../topbar/topbar.component';
-import { DashboardComponent } from "../dashboard/dashboard.component";
-import { NavbarComponent } from "../../shared/layout/navbar/navbar.component";
 
 @Component({
   selector: 'app-layout',
@@ -13,9 +11,7 @@ import { NavbarComponent } from "../../shared/layout/navbar/navbar.component";
     CommonModule,
     RouterModule,
     TopbarComponent,
-    SidebarComponent,
-    DashboardComponent,
-    NavbarComponent
+    SidebarComponent
 ],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']

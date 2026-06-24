@@ -1,42 +1,41 @@
-:root {
-  /* ===== BACKGROUNDS ===== */
-  --bg-page: #f4f8fb;        /* lightest — overall page background */
-  --bg-surface: #ffffff;     /* cards, panels, sidebars on light theme */
-  --bg-subtle: #eef2f7;      /* zebra rows, subtle section dividers */
-  --bg-dark: #0b1220;        /* dark surfaces — sidebar, header bar */
+.app-shell {
+  --sidebar-width: 240px;
+  --topbar-height: 60px;
 
-  /* ===== TEXT ===== */
-  --text-primary: #1b2733;   /* main body text, headings */
-  --text-secondary: #5b6b7c; /* labels, captions, meta text */
-  --text-muted: #8a98a8;     /* placeholders, disabled text */
-  --text-on-dark: #e2e8f0;   /* text on dark backgrounds */
-  --text-on-accent: #ffffff; /* text on top of solid accent colors */
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: var(--topbar-height) 1fr;
+  grid-template-areas:
+    "topbar topbar"
+    "sidebar main";
 
-  /* ===== BORDERS / LINES ===== */
-  --border-light: #e1e8ef;   /* default hairline borders */
-  --border-dark: rgba(255, 255, 255, 0.08); /* hairlines on dark surfaces */
+  gap: 10px;              /* small space between topbar/sidebar/main */
+  padding: 10px;           /* small space around the outer edge */
+  box-sizing: border-box;  /* padding counts inside the 100vh/100vw, doesn't add to it */
+background: #251397;  
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
 
-  /* ===== BLUE FAMILY (primary) ===== */
-  --blue-50:  #eaf4fc;
-  --blue-100: #cfe9ff;
-  --blue-300: #54c8ff;
-  --blue-500: #2185d0;       /* primary blue — main actions, links */
-  --blue-700: #1678c2;       /* hover/pressed state */
-  --blue-900: #0c4a7a;       /* darkest — headers on light bg, emphasis */
+.app-shell__topbar {
+  grid-area: topbar;
+}
 
-  /* ===== TEAL FAMILY (secondary) ===== */
-  --teal-50:  #e6f8f7;
-  --teal-100: #b8ece8;
-  --teal-300: #4fd1c9;
-  --teal-500: #00b5ad;       /* secondary teal — supporting actions */
-  --teal-700: #009088;       /* hover/pressed state */
-  --teal-900: #00564f;       /* darkest teal, rarely needed */
+.app-shell__sidebar {
+  grid-area: sidebar;
+  overflow-y: auto;
+}
 
-  /* ===== INDIGO/CYAN (related accents, sparing use) ===== */
-  --indigo-500: #6a5acd;     /* used rarely — e.g. distinct tag/category color */
-  --cyan-500: #22b8cf;       /* used rarely — e.g. info states distinct from teal */
+.app-shell__main {
+  grid-area: main;
+  overflow-y: auto;
+  background: var(--bg-page);
+}
 
-  /* ===== SHADOWS ===== */
-  --shadow-soft: rgba(33, 133, 208, 0.08);  /* blue-tinted, light surfaces */
-  --shadow-strong: rgba(0, 0, 0, 0.25);     /* dark surfaces */
+.content-surface {
+  margin: 12px;
+  border-radius: 8px;
+  min-height: calc(100% - 24px);
+  box-sizing: border-box;
 }
