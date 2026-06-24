@@ -292,4 +292,9 @@
   .app-sidebar .item {
     transition: none !important;
   }
+}.app-sidebar {
+  position: fixed;
+  left: 0;
+  top: 55px;
+  width: 240px;
 }

@@ -40,3 +40,17 @@
   --shadow-soft: rgba(33, 133, 208, 0.08);  /* blue-tinted, light surfaces */
   --shadow-strong: rgba(0, 0, 0, 0.25);     /* dark surfaces */
 }
+
+.layout-shell {
+  display: flex;
+  margin-left: 16.1%;
+  height: calc(90vh - 5px);
+  margin-top: 4.5%;
+  background: #ffffff;;
+  overflow: hidden;
+  width: 83.4%;
+  border-radius: 10px;
+}
+.content {
+  margin-left: 240px;
+}
