@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Constant } from '../Constant/constant';
-import { UserLogin } from '../models/auth/login';
-import { UserRegister } from '../models/auth/register';
-import { LoginServiceResponseDto } from '../interface/UserInfoResult';
+import { Constant } from '../core/Constant/constant';
+import { UserLogin } from '../core/models/auth/login';
+import { UserRegister } from '../core/models/auth/register';
+import { LoginServiceResponseDto } from '../core/interface/UserInfoResult';
 
 @Injectable({
   providedIn: 'root'
