@@ -1,0 +1,43 @@
+<div class="topbar">
+
+  <div class="left">
+  <div class="brand">
+    <div class="brand-mark">WF</div>
+    <span class="brand-text">WorkForce<span class="accent">Navigator</span></span>
+  </div>
+</div>
+  <div class="right">
+
+    <div class="icon-btn">
+      <i class="bell icon"></i>
+      <span class="badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>
+    </div>
+
+    <div class="icon-btn">
+      <i class="envelope icon"></i>
+      <span class="badge badge-teal" *ngIf="messageCount > 0">{{ messageCount }}</span>
+    </div>
+
+    <div class="profile-wrapper">
+
+      <div class="profile" [class.open]="toggleProfile" (click)="toggleDropdown($event)">
+        <i class="user circle icon"></i>
+        <span class="name">Admin</span>
+        <i class="dropdown icon"></i>
+      </div>
+
+      <div class="profile-menu" [class.open]="toggleProfile">
+        <button type="button" class="menu-item" (click)="viewProfile($event)">
+          <i class="user icon"></i> Profile
+        </button>
+        <div class="menu-divider"></div>
+        <button type="button" class="menu-item logout" (click)="logout($event)">
+          <i class="sign-out icon"></i> Logout
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

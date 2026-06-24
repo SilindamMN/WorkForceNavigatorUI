@@ -42,8 +42,8 @@ export class AuthPageComponent {
   LoginUser() {
     this.authService.Login(this.loginUser).subscribe(
       (response) => {
-        this.authService.saveAuthData(response);
-        this.router.navigate(['/dashboard']);
+        this.authService.saveAuthData(response);     
+        this.router.navigate(['']);
       },
       (error) => {
         alert(error.error.message);
