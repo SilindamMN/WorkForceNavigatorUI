@@ -1,0 +1,63 @@
+<div class="drawer" [class.open]="isOpen">
+
+  <!-- HEADER -->
+  <div class="drawer-header">
+
+    <div class="title">
+      {{ mode === 'create' ? 'Create' : 'Update' }} {{ title }}
+    </div>
+
+    <button class="close-btn" (click)="close()">✕</button>
+
+  </div>
+
+  <!-- BODY -->
+  <div class="drawer-body">
+
+    <!-- 2 COLUMN GRID (LIKE YOUR IMAGE) -->
+    <div class="form-grid">
+
+      <div class="form-field" *ngFor="let field of fields">
+
+        <label>{{ field.label }}</label>
+
+        <input
+          *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'"
+          [type]="field.type"
+          [(ngModel)]="formData[field.key]" />
+
+      </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="action-bar">
+
+      <!-- CREATE MODE -->
+      <button
+        *ngIf="mode === 'create'"
+        class="save-btn"
+        (click)="save()">
+
+        Save
+
+      </button>
+
+      <!-- UPDATE MODE -->
+      <ng-container *ngIf="mode === 'update'">
+
+        <button class="delete-btn" (click)="delete()">
+          Delete
+        </button>
+
+        <button class="update-btn" (click)="update()">
+          Update
+        </button>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+</div>

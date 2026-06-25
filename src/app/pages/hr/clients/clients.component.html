@@ -2,74 +2,25 @@
 
 <div class="clients-wrapper">
 
-  <!-- TABLE -->
-  <div class="table-section">
-
-    <div class="table-header-bar">
-      <div class="title">Client List</div>
-      <div class="meta">Total: {{ collectionSize }} clients</div>
-    </div>
-
-    <div class="ui segment">
-
-      <table class="ui very basic compact table">
-        <thead>
-          <tr>
-            <th>Client Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let client of pagedClients"
-              (click)="openClient(client)"
-              class="clickable-row">
-
-            <td>{{ client.clientName }}</td>
-            <td>{{ client.email }}</td>
-            <td>{{ client.phone }}</td>
-
-          </tr>
-        </tbody>
-      </table>
-
-    </div>
-
-    <!-- PAGINATION -->
-    <div class="pagination-wrapper ui small menu">
-      <a class="item" (click)="changePage(page - 1)" [class.disabled]="page === 1">‹ Prev</a>
-
-      <a class="item"
-         *ngFor="let p of pages"
-         (click)="changePage(p)"
-         [class.active]="page === p">
-        {{ p }}
-      </a>
-
-      <a class="item"
-         (click)="changePage(page + 1)"
-         [class.disabled]="page === totalPages">
-        Next ›
-      </a>
-    </div>
-
-  </div>
-
-  <!-- OVERLAY DRAWER -->
-  <div class="side-drawer" [class.open]="selectedClient">
-
-    <div class="drawer-header">
-      <div>Client Details</div>
-      <button class="ui icon button" (click)="closePanel()">✕</button>
-    </div>
-
-    <div class="drawer-body" *ngIf="selectedClient">
-      <p><strong>Name:</strong> {{ selectedClient.clientName }}</p>
-      <p><strong>Email:</strong> {{ selectedClient.email }}</p>
-      <p><strong>Phone:</strong> {{ selectedClient.phone }}</p>
-    </div>
-
-  </div>
+  <!-- GENERIC TABLE -->
+  <app-generic-table
+    [data]="clients"
+    [columns]="clientColumns"
+    [pageSize]="5"
+    (rowClick)="editClient($event)"
+    (create)="createClient()">
+  </app-generic-table>
 
 </div>
+
+<!-- DRAWER -->
+<app-drawer-form
+  [isOpen]="showDrawer"
+  [mode]="mode"
+  [title]="'Client'"
+  [fields]="clientFields"
+  [model]="selectedClient"
+  (saved)="saveClient($event)"
+  (deleted)="deleteClient($event)"
+  (closed)="showDrawer = false">
+</app-drawer-form>
