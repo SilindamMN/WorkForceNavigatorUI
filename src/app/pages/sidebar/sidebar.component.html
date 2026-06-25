@@ -30,11 +30,11 @@
 
       <div class="submenu-wrapper" [class.open]="toggleHR">
         <div class="submenu">
-          <button type="button" class="item" [class.active]="activeLink === 'Clients'" (click)="setActive('Clients')"><i class="users icon"></i> Clients</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Departments'" (click)="setActive('Departments')"><i class="sitemap icon"></i> Departments</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Managers'" (click)="setActive('Managers')"><i class="user tie  icon"></i> Managers</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Job Titles'" (click)="setActive('Job Titles')"><i class="tag icon"></i> Job Titles</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Teams'" (click)="setActive('Teams')"><i class="users icon"></i> Teams</button>
+          
+          <button type="button" class="item" [class.active]="activeLink === 'Departments'" routerLink="hr/departments" (click)="setActive('Departments')"><i class="sitemap icon"></i> Departments</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Managers'" routerLink="/hr/managers" (click)="setActive('Managers')"><i class="user tie  icon"></i> Managers</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Job Titles'" routerLink="/hr/job-titles" (click)="setActive('Job Titles')"><i class="tag icon"></i> Job Titles</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Teams'" routerLink="/hr/teams" (click)="setActive('Teams')"><i class="users icon"></i> Teams</button>
         </div>
       </div>
     </div>

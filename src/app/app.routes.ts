@@ -6,6 +6,7 @@ import { AuthGuard } from './AuthGuards/auth.guard';
 import { GuestGuard } from './AuthGuards/guest.guard';
 import { ClientsComponent } from './pages/hr/clients/clients.component';
 import { JobtitlesComponent } from './pages/hr/jobtitles/jobtitles.component';
+import { DepartmentsComponent } from './pages/hr/departments/departments.component';
 
 export const routes: Routes = [
 
@@ -20,6 +21,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
        { path: 'hr/clients', component: ClientsComponent },
        { path: 'hr/jobclients', component: JobtitlesComponent },
+       { path: 'hr/departments', component: DepartmentsComponent },
     ]
   },
 
