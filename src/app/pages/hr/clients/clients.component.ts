@@ -40,7 +40,8 @@ export class ClientsComponent implements OnInit {
   clientFields: FormField[] = [
     { key: 'clientName', label: 'Client Name', type: 'text' },
     { key: 'email', label: 'Email', type: 'email' },
-    { key: 'phone', label: 'Phone', type: 'text' }
+    { key: 'phone', label: 'Phone', type: 'text' },
+    { key: 'fax', label: 'Fax', type: 'text' }
   ];
 
   ngOnInit(): void {
@@ -68,7 +69,10 @@ export class ClientsComponent implements OnInit {
   }
 
   saveClient(client: any): void {
-    console.log('SAVE:', client);
+    this.clientService.create(client).subscribe(newClient => {
+      this.clients.push(newClient);
+      this.showDrawer = false;
+    });
     this.showDrawer = false;
   }
 

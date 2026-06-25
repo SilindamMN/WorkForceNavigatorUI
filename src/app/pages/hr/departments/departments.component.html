@@ -1,24 +1,25 @@
-<div class="clients-wrapper">
+<div class="departments-wrapper">
 
   <!-- GENERIC TABLE -->
   <app-generic-table
-    [data]="clients"
-    [columns]="clientColumns"
+    [data]="departments"
+    [columns]="departmentFields"
     [pageSize]="10"
-    (rowClick)="editClient($event)"
-    (create)="createClient()">
+    (rowClick)="editClientShowDrawer($event)"
+    (create)="createDepartment()">
   </app-generic-table>
-
-</div>
+  </div>
+ 
 
 <!-- DRAWER -->
 <app-drawer-form
   [isOpen]="showDrawer"
   [mode]="mode"
   [title]="'Client'"
-  [fields]="clientFields"
+  [fields]="departmentFields"
   [model]="selectedClient"
-  (saved)="saveClient($event)"
+  (saved)="saveDepartment($event)"
+  (updated)="updateDepartment($event)"
   (deleted)="deleteClient($event)"
   (closed)="showDrawer = false">
 </app-drawer-form>
