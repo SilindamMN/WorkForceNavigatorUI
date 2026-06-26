@@ -17,9 +17,9 @@
   [mode]="mode"
   [title]="'Client'"
   [fields]="departmentFields"
-  [model]="selectedClient"
+  [model]="selectedDepartment"
   (saved)="saveDepartment($event)"
   (updated)="updateDepartment($event)"
-  (deleted)="deleteClient($event)"
+  (deleted)="deleteDepartment($event)"
   (closed)="showDrawer = false">
 </app-drawer-form>
