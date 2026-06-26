@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { User } from '../../../models/hr/user';
 import { UsersService } from '../../../services/hr/users.service';
 import { DrawerFormComponent } from '../../../shared/components/drawer-form/drawer-form.component';
 import { GenericTableComponent } from '../../../shared/components/generic-table/generic-table.component';
 import { FormField } from '../../../shared/models/form-field.model';
+import { GenderOptions } from '../../../models/enums/gender';
+import { UserDto } from '../../../models/hr/user';
+import { JobTitleService } from '../../../services/hr/jobtitles.service';
+import { JobTitle } from '../../../models/hr/jobtitle';
 
 @Component({
   selector: 'app-users',
@@ -15,14 +18,17 @@ import { FormField } from '../../../shared/models/form-field.model';
 })
 export class UsersComponent implements OnInit {
 
-  users : User[] = [];
+  users : UserDto[] = [];
   usersService = inject(UsersService);
+  jobTitlesService = inject(JobTitleService);
   showDrawer = false;
   selectedUser: any = {};
   mode: 'create' | 'update' = 'create';
+  jobTitles: JobTitle[] = [];
 
   ngOnInit(): void {
    this.loadUsers();   
+   this.loadJobTitles();
   }
 
   loadUsers(): void {
@@ -45,7 +51,9 @@ userColumns = [
   { key: 'email', label: 'Email', type: 'email' },
   { key: 'username', label: 'Username', type: 'text' },
   { key: 'phoneNumber', label: 'Phone Number', type: 'text' },
-  { key: 'gender', label: 'Gender', type: 'text' }
+  { key: 'salary', label: 'Salary', type: 'text' },
+  { key: 'jobTitle', label: 'JobTitle', type: 'dropdown',options :[]},
+  { key: 'gender', label: 'Gender', type: 'dropdown' ,options :[...GenderOptions] }
 ];
 
      createUser(): void {
@@ -59,15 +67,24 @@ userColumns = [
    this.selectedUser = {...user};
    this.showDrawer = true;
   }
-  UpdateUser(user:User):void{
-    this.usersService.update(user,``).subscribe(()=>{
-      this.users.push(user);
-      this.loadUsers();
-      this.showDrawer=false;
-    })
-  }
+  UpdateUser(user: UserDto): void {
+  this.usersService.updateByKey(user, user.username
+  ).subscribe(() => {
+    this.loadUsers();
+    this.showDrawer = false;
+  });
+}
   deleteUser(user:any):void{
     this.users = this.users.filter(c=> c!== user);
     this.showDrawer =false;
+  }
+  loadJobTitles(): void {
+  this.jobTitlesService.getAll().subscribe(data => {
+    this.jobTitles = data;
+
+    const field = this.userFields.find(f => f.key === 'jobTitle');
+    if (field) {
+      field.options = this.jobTitles.map(j => j.title);
+    }});
   }
 }

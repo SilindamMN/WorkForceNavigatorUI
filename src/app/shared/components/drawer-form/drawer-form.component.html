@@ -17,18 +17,32 @@
     <!-- 2 COLUMN GRID (LIKE YOUR IMAGE) -->
     <div class="form-grid">
 
-      <div class="form-field" *ngFor="let field of fields">
+  <div class="form-field" *ngFor="let field of fields">
 
-        <label>{{ field.label }}</label>
+    <label>{{ field.label }}</label>
 
-        <input
-          *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'"
-          [type]="field.type"
-          [(ngModel)]="formData[field.key]" />
+    <!-- TEXT / EMAIL / NUMBER -->
+    <input
+      *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'"
+      [type]="field.type"
+      [(ngModel)]="formData[field.key]" />
 
-      </div>
+    <!-- DROPDOWN -->
+    <select
+      *ngIf="field.type === 'dropdown'"
+      [(ngModel)]="formData[field.key]">
 
-    </div>
+      <option value="">Select {{ field.label }}</option>
+
+      <option *ngFor="let opt of field.options" [value]="opt">
+        {{ opt }}
+      </option>
+
+    </select>
+
+  </div>
+
+</div>
 
     <!-- ACTIONS -->
     <div class="action-bar">

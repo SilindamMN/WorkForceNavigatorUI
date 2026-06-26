@@ -37,7 +37,23 @@ export class GenericCrudService<T extends BaseEntity> {
       ? `${this.baseUrl}${action}/${entity.id}`
       : `${this.baseUrl}/${entity.id}`;
     return this.http.put<T>(url, entity);
+  } // Update entity, requires id, optionally with an action path before the id
+ updateByKey<T>(
+  entity: T,
+  key: string,
+  action?: string
+): Observable<T> {
+
+  if (!key) {
+    throw new Error('Key is required for update operation.');
   }
+
+  const url = action
+    ? `${this.baseUrl}${action}update?updateUsername=${key}`
+    : `${this.baseUrl}update?updateUsername=${key}`;
+
+  return this.http.post<T>(url, entity);
+}
 
   // Delete entity by id, optionally with an action path before the id
   delete(id: number | string, action?: string): Observable<any> {

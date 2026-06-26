@@ -1,3 +1,3 @@
-export interface BaseEntity {
-  id?: number;
+export interface BaseEntity<TId = number | string> {
+  id?: TId;
 }

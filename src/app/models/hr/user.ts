@@ -1,12 +1,12 @@
+import { Gender, GenderOptions } from './../enums/gender';
 export class User {
   id?: any;
   firstName: string;
   lastName: string;
   email: string;
   username: string;
-  createdAt?: string;
   phoneNumber?: string | null;
-  gender?: string | null;
+  gender?: Gender | null;
   roles: string[];
 
   constructor() {
@@ -15,9 +15,8 @@ export class User {
     this.lastName = '';
     this.email = '';
     this.username = '';
-    this.createdAt = undefined;
     this.phoneNumber = null;
-    this.gender = null;
+    this.gender = this.gender;
     this.roles = [];
   }
 }
@@ -29,6 +28,8 @@ export class UserDto {
   email: string;
   username: string;
   phoneNumber?: string | null;
+  salary?: string | null;
+  jobTitle?: string | null;
   gender?: string | null;
   roles: string[];
 
@@ -38,6 +39,7 @@ export class UserDto {
     this.email = '';
     this.username = '';
     this.phoneNumber = null;
+    this.salary = '';
     this.gender = null;
     this.roles = [];
   }
