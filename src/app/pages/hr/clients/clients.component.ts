@@ -33,7 +33,8 @@ export class ClientsComponent implements OnInit {
   clientColumns = [
     { key: 'clientName', label: 'Client Name' },
     { key: 'email', label: 'Email' },
-    { key: 'phone', label: 'Phone' }
+    { key: 'phone', label: 'Phone' },
+    { key: 'fax', label: 'Fax' }
   ];
 
   // ================= FORM CONFIG =================

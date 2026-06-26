@@ -31,11 +31,17 @@
       <div class="submenu-wrapper" [class.open]="toggleHR">
         <div class="submenu">
           
-          <button type="button" class="item" [class.active]="activeLink === 'Departments'" routerLink="hr/departments" (click)="setActive('Departments')"><i class="sitemap icon"></i> Departments</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Managers'" routerLink="/hr/managers" (click)="setActive('Managers')"><i class="user tie  icon"></i> Managers</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Job Titles'" routerLink="/hr/job-titles" (click)="setActive('Job Titles')"><i class="tag icon"></i> Job Titles</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Teams'" routerLink="/hr/teams" (click)="setActive('Teams')"><i class="users icon"></i> Teams</button>
-        </div>
+         <button type="button" class="item" [class.active]="activeLink === 'Departments'" routerLink="/hr/departments" (click)="setActive('Departments')"><i class="sitemap icon"></i> Departments</button>
+
+<button type="button" class="item" [class.active]="activeLink === 'Managers'" routerLink="/hr/managers" (click)="setActive('Managers')"><i class="user tie icon"></i> Managers</button>
+
+<button type="button" class="item" [class.active]="activeLink === 'Job Titles'" routerLink="/hr/jobtitles" (click)="setActive('Job Titles')"><i class="tag icon"></i> Job Titles</button>
+
+<button type="button" class="item" [class.active]="activeLink === 'Teams'" routerLink="/hr/teams" (click)="setActive('Teams')"><i class="users icon"></i> Teams</button>
+
+<button type="button" class="item" [class.active]="activeLink === 'Users'" routerLink="/hr/users" (click)="setActive('Users')"><i class="user icon"></i> Users</button>
+
+<button type="button" class="item" [class.active]="activeLink === 'Clients'" routerLink="/hr/clients" (click)="setActive('Clients')"><i class="user tie icon"></i> Clients</button> </div>
       </div>
     </div>
 
@@ -58,7 +64,8 @@
 
       <div class="submenu-wrapper" [class.open]="toggleWork">
         <div class="submenu">
-            <button type="button" class="item" [class.active]="activeLink === 'Projects'" (click)="setActive('Projects')"><i class="briefcase icon"></i> Projects</button>
+          
+          <button type="button" class="item" [class.active]="activeLink === 'Projects'"  routerLink="/work/projects" (click)="setActive('Projects')"><i class="briefcase icon"></i> Projects</button>
           <button type="button" class="item" [class.active]="activeLink === 'Tasks'" (click)="setActive('Tasks')"><i class="tasks icon"></i> Tasks</button>
           <button type="button" class="item" [class.active]="activeLink === 'Timesheets'" (click)="setActive('Timesheets')"><i class="clock icon"></i> Timesheets</button>
         </div>
@@ -84,8 +91,8 @@
 
       <div class="submenu-wrapper" [class.open]="toggleLeaves">
         <div class="submenu">
+                      <button type="button" class="item" [class.active]="activeLink === 'Allocations'"  routerLink="/leaves/allocations" (click)="setActive('Leave Allocations')"><i class="calendar check icon"></i>Leave Allocations</button>
           <button type="button" class="item" [class.active]="activeLink === 'Leave Requests'" (click)="setActive('Leave Requests')"><i class="paper plane icon"></i> Leave Requests</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Allocations'" (click)="setActive('Allocations')"><i class="calendar check icon"></i> Allocations</button>
           <button type="button" class="item" [class.active]="activeLink === 'Leave Types'" (click)="setActive('Leave Types')"><i class="calendar plus icon"></i> Leave Types</button>
         </div>
       </div>

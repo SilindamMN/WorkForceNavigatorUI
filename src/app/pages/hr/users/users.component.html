@@ -2,11 +2,11 @@
 
   <!-- GENERIC TABLE -->
   <app-generic-table
-    [data]="jobTitles"
-    [columns]="jobTitleColumns"
+    [data]="users"
+    [columns]="userColumns"
     [pageSize]="10"
-    (rowClick)="editJobTitleShowDrawer($event)"
-    (create)="createJobTitle()">
+    (rowClick)="editUserShowDrawer($event)"
+    (create)="createUser()">
   </app-generic-table>
 
 </div>
@@ -16,9 +16,9 @@
   [isOpen]="showDrawer"
   [mode]="mode"
   [title]="'Job Title'"
-  [fields]="jobTitleFields"
-  [model]="selectedJobTitle"
-  (saved)="updateJobTitle($event)"
-  (deleted)="deleteJobTitle($event)"
+  [fields]="userFields"
+  [model]="selectedUser"
+  (saved)="UpdateUser($event)"
+  (deleted)="deleteUser($event)"
   (closed)="showDrawer = false">
 </app-drawer-form>

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GenericCrudService } from '../generic.service';
-import { Department } from '../../core/models/hr/department';
+import { Department } from '../../models/hr/department';
 
 @Injectable({
   providedIn: 'root'

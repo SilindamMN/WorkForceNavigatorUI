@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DepartmentsService } from '../../../services/hr/departments.service';
-import { Department, DepartmentDto } from '../../../core/models/hr/department';
+import { Department, DepartmentDto } from '../../../models/hr/department';
 import { FormField } from '../../../shared/models/form-field.model';
 import { DrawerFormComponent } from "../../../shared/components/drawer-form/drawer-form.component";
 import { GenericTableComponent } from '../../../shared/components/generic-table/generic-table.component';
