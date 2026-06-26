@@ -17,7 +17,7 @@ export class DepartmentsComponent implements OnInit   {
   departments : Department[] = [];  
    departmentService = inject(DepartmentsService);
      showDrawer = false;
-  selectedClient: any = {};
+  selectedDepartment: any = {};
  departmentFields: FormField[] = [
     { key: 'departmentName', label: 'Department Name', type: 'text' },
     { key: 'description', label: 'Description', type: 'text' }
@@ -33,12 +33,12 @@ export class DepartmentsComponent implements OnInit   {
 }
  createDepartment(): void {
     this.mode = 'create';
-    this.selectedClient = {};
+    this.selectedDepartment = {};
     this.showDrawer = true;
   }
 editClientShowDrawer(client: any): void {
     this.mode = 'update';
-    this.selectedClient = { ...client };
+    this.selectedDepartment = { ...client };
     this.showDrawer = true;
   }
 updateDepartment(department: Department): void {
@@ -56,12 +56,10 @@ updateDepartment(department: Department): void {
     });
     this.showDrawer = false;
   }
-
-  deleteClient(department: any): void {
-    console.log('DELETE:', department);
-
-    this.departments = this.departments.filter(c => c !== department);
-
+deleteDepartment(department: any): void {
+  this.departmentService.delete(`DeleteDepartment?id=${department.id}`).subscribe(() => {
+    this.departments = this.departments.filter(c => c.id !== department.id);
     this.showDrawer = false;
-  }
+  });
+}
 }
