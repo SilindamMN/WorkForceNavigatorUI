@@ -1,0 +1,24 @@
+<div class="leaveallocation-wrapper">
+
+  <!-- GENERIC TABLE -->
+  <app-generic-table
+    [data]="leaveAllocations"
+    [columns]="leaveAllocationColumns"
+    [pageSize]="10"
+    (rowClick)="editLeaveAllocationShowDrawer($event)"
+    (create)="createLeaveAllocation()">
+  </app-generic-table>
+
+</div>
+
+<!-- DRAWER -->
+<app-drawer-form
+  [isOpen]="showDrawer"
+  [mode]="mode"
+  [title]="'Leave Allocation'"
+  [fields]="leaveAllocationFields"
+  [model]="selectedLeaveAllocation"
+  (saved)="updateLeaveAllocation($event)"
+  (deleted)="deleteLeaveAllocation($event)"
+  (closed)="showDrawer = false">
+</app-drawer-form>

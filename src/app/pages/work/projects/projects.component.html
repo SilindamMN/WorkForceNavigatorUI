@@ -1,0 +1,24 @@
+<div class="projects-wrapper">
+
+  <!-- GENERIC TABLE -->
+  <app-generic-table
+    [data]="projects"
+    [columns]="projectColumns"
+    [pageSize]="10"
+    (rowClick)="editProjectShowDrawer($event)"
+    (create)="createProject()">
+  </app-generic-table>
+
+</div>
+
+<!-- DRAWER -->
+<app-drawer-form
+  [isOpen]="showDrawer"
+  [mode]="mode"
+  [title]="'Project'"
+  [fields]="projectFields"
+  [model]="selectedProject"
+  (saved)="updateProject($event)"
+  (deleted)="deleteProject($event)"
+  (closed)="showDrawer = false">
+</app-drawer-form>

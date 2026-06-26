@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Client } from '../../models/hr/client';
 import { GenericCrudService } from '../generic.service';
+import { LeaveAllocation } from '../../models/hr/leaveallocation';
 
 @Injectable({ providedIn: 'root' })
-export class ClientService extends GenericCrudService<Client> {
+export class LeaveAllocationsService extends GenericCrudService<LeaveAllocation> {
   constructor(http: HttpClient) {
-    super(http, 'Client');
+    super(http, 'LeaveAllocation/');
   }
 }
