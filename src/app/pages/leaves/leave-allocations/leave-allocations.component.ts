@@ -10,8 +10,8 @@ import { FormField } from '../../../shared/models/form-field.model';
 @Component({
   selector: 'app-leave-allocations',
   imports: [CommonModule, RouterModule,GenericTableComponent,DrawerFormComponent],
-  templateUrl: './allocations.component.html',
-  styleUrl: './allocations.component.css'
+  templateUrl: './leave-allocations.component.html',
+  styleUrl: './leave-allocations.component.css'
 })
 export class LeaveAllocationsComponent implements OnInit {
 

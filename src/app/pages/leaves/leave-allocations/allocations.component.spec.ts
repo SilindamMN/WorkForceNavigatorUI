@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AllocationsComponent } from './allocations.component';
+import { AllocationsComponent } from './leave-allocations.component';
 
 describe('AllocationsComponent', () => {
   let component: AllocationsComponent;

@@ -10,7 +10,7 @@ import { UsersComponent } from './pages/hr/users/users.component';
 import { TeamsComponent } from './pages/hr/teams/teams.component';
 import { JobTitlesComponent } from './pages/hr/jobtitles/jobtitles.component';
 import { ProjectsComponent } from './pages/work/projects/projects.component';
-import { LeaveAllocationsComponent } from './pages/leaves/allocations/allocations.component';
+import { LeaveAllocationsComponent } from './pages/leaves/leave-allocations/leave-allocations.component';
 
 export const routes: Routes = [
 
@@ -29,7 +29,7 @@ export const routes: Routes = [
        { path: 'hr/jobtitles', component: JobTitlesComponent },
        { path: 'hr/departments', component: DepartmentsComponent },
        { path: 'work/projects', component: ProjectsComponent },
-       { path: 'leaves/leaveallocations', component: LeaveAllocationsComponent },
+       { path: 'leaves/leave-allocations', component: LeaveAllocationsComponent },
        { path: 'hr/departments', component: DepartmentsComponent },
     ]
   },
