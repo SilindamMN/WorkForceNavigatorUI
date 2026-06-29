@@ -1,1 +1,24 @@
-<p>leave-requests works!</p>
+<div class="leaveallocation-wrapper">
+
+  <!-- GENERIC TABLE -->
+  <app-generic-table
+    [data]="leaveRequests"
+    [columns]="leaveRequestColumns"
+    [pageSize]="10"
+    (rowClick)="editRequestShowDrawer($event)"
+    (create)="createRequest()">
+  </app-generic-table>
+
+</div>
+
+<!-- DRAWER -->
+<app-drawer-form
+  [isOpen]="showDrawer"
+  [mode]="mode"
+  [title]="'Leave Allocation'"
+  [fields]="leaveRequestColumns"
+  [model]="selectedRequest"
+  (saved)="updateRequest($event)"
+  (deleted)="deleteRequest($event)"
+  (closed)="showDrawer = false">
+</app-drawer-form>
