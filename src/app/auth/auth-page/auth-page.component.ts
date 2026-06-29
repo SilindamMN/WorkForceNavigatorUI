@@ -38,6 +38,10 @@ export class AuthPageComponent {
       }
     );
   }
+logout(){
+      this.authService.logout();
+      this.router.navigateByUrl('/login');
+  }
 
   LoginUser() {
     this.authService.Login(this.loginUser).subscribe(

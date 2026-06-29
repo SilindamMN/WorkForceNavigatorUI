@@ -1,5 +1,7 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from "@angular/router";
+import { AuthserviceService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -10,6 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class TopbarComponent {
 
+ router = inject(Router);
+  authService = inject(AuthserviceService);
   toggleProfile = false;
 
   notificationCount = 4;
@@ -32,9 +36,8 @@ export class TopbarComponent {
     this.toggleProfile = false;
   }
 
-  logout(event?: Event) {
-    event?.stopPropagation();
-    console.log('logout clicked');
-    this.toggleProfile = false;
+ logout(){
+      this.authService.logout();
+      this.router.navigateByUrl('/login');
   }
 }
