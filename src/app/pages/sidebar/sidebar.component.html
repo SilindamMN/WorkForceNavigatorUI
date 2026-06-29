@@ -66,8 +66,8 @@
         <div class="submenu">
           
           <button type="button" class="item" [class.active]="activeLink === 'Projects'"  routerLink="/work/projects" (click)="setActive('Projects')"><i class="briefcase icon"></i> Projects</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Tasks'" (click)="setActive('Tasks')"><i class="tasks icon"></i> Tasks</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Timesheets'" (click)="setActive('Timesheets')"><i class="clock icon"></i> Timesheets</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Tasks'" routerLink="/work/tasks" (click)="setActive('Tasks')"><i class="tasks icon"></i> Tasks</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Timesheets'" routerLink="/work/timesheets" (click)="setActive('Timesheets')"><i class="clock icon"></i> Timesheets</button>
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@
       <div class="submenu-wrapper" [class.open]="toggleLeaves">
         <div class="submenu">
                       <button type="button" class="item" [class.active]="activeLink === 'leave-Allocations'"  routerLink="/leaves/leave-allocations" (click)="setActive('Leave Allocations')"><i class="calendar check icon"></i>Leave Allocations</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Leave Requests'" (click)="setActive('Leave Requests')"><i class="paper plane icon"></i> Leave Requests</button>
+          <button type="button" class="item" [class.active]="activeLink === 'leave-requests'" routerLink="/leaves/leave-requests" (click)="setActive('Leave Requests')"><i class="paper plane icon"></i> Leave Requests</button>
   </div>
       </div>
     </div>

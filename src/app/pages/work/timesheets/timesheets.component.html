@@ -1,1 +1,24 @@
-<p>timesheets works!</p>
+<div class="clients-wrapper">
+
+  <!-- GENERIC TABLE -->
+  <app-generic-table
+    [data]="timesheets"
+    [columns]="timesheetColumns"
+    [pageSize]="10"
+    (rowClick)="editTimesheetShowDrawer($event)"
+    (create)="createTimesheet()">
+  </app-generic-table>
+
+</div>
+
+<!-- DRAWER -->
+<app-drawer-form
+  [isOpen]="showDrawer"
+  [mode]="mode"
+  [title]="'Timesheet'"
+  [fields]="timesheetFields"
+  [model]="selectedTimesheet"
+  (saved)="saveDepartment($event)"
+  (deleted)="deleteTimesheet($event)"
+  (closed)="showDrawer = false">
+</app-drawer-form>

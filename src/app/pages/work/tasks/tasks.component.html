@@ -1,1 +1,24 @@
-<p>tasks works!</p>
+<div class="clients-wrapper">
+
+  <!-- GENERIC TABLE -->
+  <app-generic-table
+    [data]="taskss"
+    [columns]="tasksColumns"
+    [pageSize]="10"
+    (rowClick)="editClient($event)"
+    (create)="createTask()">
+  </app-generic-table>
+
+</div>
+
+<!-- DRAWER -->
+<app-drawer-form
+  [isOpen]="showDrawer"
+  [mode]="mode"
+  [title]="'Client'"
+  [fields]="tasksFields"
+  [model]="selectedTask"
+  (saved)="saveClient($event)"
+  (deleted)="deleteClient($event)"
+  (closed)="showDrawer = false">
+</app-drawer-form>

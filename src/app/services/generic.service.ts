@@ -3,7 +3,10 @@ import { Observable } from 'rxjs';
 import { BaseEntity } from '../core/Constant/baseEntity';
 import { Constant } from '../core/Constant/constant';
 
-export class GenericCrudService<T extends BaseEntity> {
+export class GenericCrudService<
+  T extends BaseEntity,
+  TDto = T
+>{
   protected baseUrl: string;
 
   constructor(protected http: HttpClient, endpoint: string) {
