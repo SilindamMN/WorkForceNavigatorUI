@@ -10,14 +10,10 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./drawer-form.component.css']
 })
 export class DrawerFormComponent implements OnChanges {
-changePage(arg0: number) {
-throw new Error('Method not implemented.');
-}
 
   @Input() isOpen = false;
   @Input() mode: 'create' | 'update' = 'create';
   @Input() title = '';
-
   @Input() fields: any[] = [];
   @Input() model: any = {};
 
@@ -25,35 +21,44 @@ throw new Error('Method not implemented.');
   @Output() updated = new EventEmitter<any>();
   @Output() deleted = new EventEmitter<any>();
   @Output() closed = new EventEmitter<void>();
+  @Output() fieldChange = new EventEmitter<{ key: string; value: any }>();
 
   formData: any = {};
 
   ngOnChanges(changes: SimpleChanges): void {
-
-    // ONLY reset form when model actually changes
     if (changes['model'] && this.model) {
       this.formData = { ...this.model };
     }
-
-    // initialize empty form for create mode
     if (this.mode === 'create' && !this.model) {
       this.formData = {};
     }
   }
 
-  save(): void {
-    this.saved.emit(this.formData);
+  onFieldChange(key: string, value: any): void {
+    this.formData[key] = value;
+    this.fieldChange.emit({ key, value });
   }
 
-  update(): void {
-    this.updated.emit(this.formData);
+  // NEW: resolve the value to bind/send, based on field.optionValue
+  getOptionValue(field: any, opt: any): any {
+    if (opt === null || opt === undefined) return opt;
+    if (typeof opt === 'object') {
+      return field.optionValue ? opt[field.optionValue] : opt.value ?? opt.id;
+    }
+    return opt; // plain string/number option
   }
 
-  delete(): void {
-    this.deleted.emit(this.formData);
+  // NEW: resolve the display label, based on field.optionLabel
+  getOptionLabel(field: any, opt: any): any {
+    if (opt === null || opt === undefined) return '';
+    if (typeof opt === 'object') {
+      return field.optionLabel ? opt[field.optionLabel] : opt.label ?? opt.name;
+    }
+    return opt; // plain string/number option
   }
 
-  close(): void {
-    this.closed.emit();
-  }
+  save(): void { this.saved.emit(this.formData); }
+  update(): void { this.updated.emit(this.formData); }
+  delete(): void { this.deleted.emit(this.formData); }
+  close(): void { this.closed.emit(); }
 }

@@ -1,7 +1,9 @@
 export interface FormField {
   key: string;
   label: string;
-  type: 'text' | 'email' | 'number' | 'textarea' | 'dropdown' | '[]';
+  type: 'text' | 'email' | 'number' | 'textarea' | 'dropdown';
 
-  options?: string[];
+  options?: any[];        
+  optionValue?: string;   
+  optionLabel?: string;   
 }

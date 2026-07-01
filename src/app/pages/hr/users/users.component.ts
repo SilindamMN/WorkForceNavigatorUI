@@ -9,82 +9,135 @@ import { GenderOptions } from '../../../models/enums/gender';
 import { UserDto } from '../../../models/hr/user';
 import { JobTitleService } from '../../../services/hr/jobtitles.service';
 import { JobTitle } from '../../../models/hr/jobtitle';
+import { DepartmentsService } from '../../../services/hr/departments.service';
+import { Department } from '../../../models/hr/department';
 
 @Component({
   selector: 'app-users',
-  imports: [CommonModule,RouterModule,DrawerFormComponent,GenericTableComponent],
+  imports: [CommonModule, RouterModule, DrawerFormComponent, GenericTableComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
 export class UsersComponent implements OnInit {
+  formData: any = {};
+  users: UserDto[] = [];
+  departments: Department[] = [];
+  jobTitles: JobTitle[] = [];
 
-  users : UserDto[] = [];
   usersService = inject(UsersService);
   jobTitlesService = inject(JobTitleService);
+  departmentService = inject(DepartmentsService);
+
   showDrawer = false;
   selectedUser: any = {};
   mode: 'create' | 'update' = 'create';
-  jobTitles: JobTitle[] = [];
 
   ngOnInit(): void {
-   this.loadUsers();   
-   this.loadJobTitles();
+    this.loadUsers();
+    this.loadDepartments();
+  }
+
+  // Called whenever ANY field in the drawer changes
+  onFormChange(event: { key: string; value: any }): void {
+    this.formData[event.key] = event.value;
+
+    if (event.key === 'departmentId') {
+      // reset job title whenever department changes
+      this.formData.jobTitleId = null;
+      this.selectedUser = { ...this.selectedUser, jobTitleId: null };
+
+      if (event.value) {
+        this.getJobTitleByDepartmentId(+event.value);
+      } else {
+        this.clearJobTitleOptions();
+      }
+    }
+  }
+
+
+  private clearJobTitleOptions(): void {
+    this.jobTitles = [];
+    const field = this.userFields.find(f => f.key === 'jobTitleId');
+    if (field) field.options = [];
   }
 
   loadUsers(): void {
-    this.usersService.getAll(`Users`).subscribe(data=>{
+    this.usersService.getAll(`Users`).subscribe(data => {
       this.users = data;
-    })
+    });
   }
-userColumns = [
-  { key: 'firstName', label: 'First Name' },
-  { key: 'lastName', label: 'Last Name' },
-  { key: 'email', label: 'Email' },
-  { key: 'username', label: 'Username' },
-  { key: 'phoneNumber', label: 'Phone Number' },
-  { key: 'gender', label: 'Gender' }
-];
+
+  userColumns = [
+    { key: 'firstName', label: 'First Name' },
+    { key: 'lastName', label: 'Last Name' },
+    { key: 'email', label: 'Email' },
+    { key: 'username', label: 'Username' },
+    { key: 'phoneNumber', label: 'Phone Number' },
+    { key: 'gender', label: 'Gender' }
+  ];
+
   // ================= FORM CONFIG =================
- userFields: FormField[] = [
+  userFields: FormField[] = [
   { key: 'firstName', label: 'First Name', type: 'text' },
   { key: 'lastName', label: 'Last Name', type: 'text' },
   { key: 'email', label: 'Email', type: 'email' },
   { key: 'username', label: 'Username', type: 'text' },
   { key: 'phoneNumber', label: 'Phone Number', type: 'text' },
   { key: 'salary', label: 'Salary', type: 'text' },
-  { key: 'jobTitle', label: 'JobTitle', type: 'dropdown',options :[]},
-  { key: 'gender', label: 'Gender', type: 'dropdown' ,options :[...GenderOptions] }
+  { key: 'departmentId', label: 'Department', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'departmentName' },
+  { key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'title' },
+  { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] } // plain strings, no optionValue/optionLabel needed
 ];
 
-     createUser(): void {
+  createUser(): void {
     this.mode = 'create';
     this.selectedUser = {};
+    this.clearJobTitleOptions();
     this.showDrawer = true;
   }
 
-  editUserShowDrawer(user:any):void{
-   this.mode = 'update';
-   this.selectedUser = {...user};
-   this.showDrawer = true;
+  editUserShowDrawer(user: any): void {
+    this.mode = 'update';
+    this.selectedUser = { ...user };
+    this.showDrawer = true;
+
+    // Pre-load the job titles for this user's existing department
+    if (user.departmentId) {
+      this.getJobTitleByDepartmentId(user.departmentId);
+    }
   }
+
   UpdateUser(user: UserDto): void {
-  this.usersService.updateByKey(user, user.username
-  ).subscribe(() => {
-    this.loadUsers();
+    this.usersService.updateByKey(user, (user as any).username)
+      .subscribe(() => {
+        this.loadUsers();
+        this.showDrawer = false;
+      });
+  }
+
+  deleteUser(user: any): void {
+    this.users = this.users.filter(c => c !== user);
     this.showDrawer = false;
+  }
+
+loadDepartments(): void {
+  this.departmentService.getAll().subscribe(data => {
+    this.departments = data;
+    const field = this.userFields.find(f => f.key === 'departmentId');
+    if (field) {
+      field.options = data; // raw Department[] objects now — no manual mapping
+    }
   });
 }
-  deleteUser(user:any):void{
-    this.users = this.users.filter(c=> c!== user);
-    this.showDrawer =false;
-  }
-  loadJobTitles(): void {
-  this.jobTitlesService.getAll().subscribe(data => {
-    this.jobTitles = data;
 
-    const field = this.userFields.find(f => f.key === 'jobTitle');
-    if (field) {
-      field.options = this.jobTitles.map(j => j.title);
-    }});
-  }
+getJobTitleByDepartmentId(departmentId: number): void {
+  this.jobTitlesService.getJobTitleByDepartmentId(departmentId)
+    .subscribe(data => {
+      this.jobTitles = data;
+      const field = this.userFields.find(f => f.key === 'jobTitleId');
+      if (field) {
+        field.options = data; // raw JobTitle[] objects
+      }
+    });
+}
 }
