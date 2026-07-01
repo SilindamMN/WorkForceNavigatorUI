@@ -1,77 +1,43 @@
 <div class="drawer" [class.open]="isOpen">
 
-  <!-- HEADER -->
   <div class="drawer-header">
-
-    <div class="title">
-      {{ mode === 'create' ? 'Create' : 'Update' }} {{ title }}
-    </div>
-
+    <div class="title">{{ mode === 'create' ? 'Create' : 'Update' }} {{ title }}</div>
     <button class="close-btn" (click)="close()">✕</button>
-
   </div>
 
-  <!-- BODY -->
   <div class="drawer-body">
-
-    <!-- 2 COLUMN GRID (LIKE YOUR IMAGE) -->
     <div class="form-grid">
 
-  <div class="form-field" *ngFor="let field of fields">
+      <div class="form-field" *ngFor="let field of fields">
+        <label>{{ field.label }}</label>
 
-    <label>{{ field.label }}</label>
+        <input
+          *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'"
+          [type]="field.type"
+          [(ngModel)]="formData[field.key]"
+          (ngModelChange)="onFieldChange(field.key, $event)" />
 
-    <!-- TEXT / EMAIL / NUMBER -->
-    <input
-      *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'"
-      [type]="field.type"
-      [(ngModel)]="formData[field.key]" />
+        <select
+  *ngIf="field.type === 'dropdown'"
+  [(ngModel)]="formData[field.key]"
+  (ngModelChange)="onFieldChange(field.key, $event)">
 
-    <!-- DROPDOWN -->
-    <select
-      *ngIf="field.type === 'dropdown'"
-      [(ngModel)]="formData[field.key]">
+  <option [ngValue]="null">Select {{ field.label }}</option>
 
-      <option value="">Select {{ field.label }}</option>
-
-      <option *ngFor="let opt of field.options" [value]="opt">
-        {{ opt }}
-      </option>
-
-    </select>
-
-  </div>
-
-</div>
-
-    <!-- ACTIONS -->
-    <div class="action-bar">
-
-      <!-- CREATE MODE -->
-      <button
-        *ngIf="mode === 'create'"
-        class="save-btn"
-        (click)="save()">
-
-        Save
-
-      </button>
-
-      <!-- UPDATE MODE -->
-      <ng-container *ngIf="mode === 'update'">
-
-        <button class="delete-btn" (click)="delete()">
-          Delete
-        </button>
-
-        <button class="update-btn" (click)="update()">
-          Update
-        </button>
-
-      </ng-container>
+  <option *ngFor="let opt of field.options" [ngValue]="getOptionValue(field, opt)">
+    {{ getOptionLabel(field, opt) }}
+  </option>
+</select>
+      </div>
 
     </div>
 
+    <div class="action-bar">
+      <button *ngIf="mode === 'create'" class="save-btn" (click)="save()">Save</button>
+      <ng-container *ngIf="mode === 'update'">
+        <button class="delete-btn" (click)="delete()">Delete</button>
+        <button class="update-btn" (click)="update()">Update</button>
+      </ng-container>
+    </div>
   </div>
-
 </div>

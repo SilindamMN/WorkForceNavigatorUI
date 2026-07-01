@@ -1,6 +1,4 @@
 <div class="jobtitles-wrapper">
-
-  <!-- GENERIC TABLE -->
   <app-generic-table
     [data]="users"
     [columns]="userColumns"
@@ -8,16 +6,15 @@
     (rowClick)="editUserShowDrawer($event)"
     (create)="createUser()">
   </app-generic-table>
-
 </div>
 
-<!-- DRAWER -->
 <app-drawer-form
   [isOpen]="showDrawer"
   [mode]="mode"
-  [title]="'Job Title'"
+  [title]="'User'"
   [fields]="userFields"
   [model]="selectedUser"
+  (fieldChange)="onFormChange($event)"
   (saved)="UpdateUser($event)"
   (deleted)="deleteUser($event)"
   (updated)="UpdateUser($event)"
