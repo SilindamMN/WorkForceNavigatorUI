@@ -33,3 +33,15 @@ export class TeamDto {
     this.departmentName = '';
   }
 }
+  export class UserTeamListDto {
+    
+          UserName  : string;
+          TeamName : string;
+          TeamLeader :string;
+
+          constructor() {
+            this.UserName = '';
+            this.TeamName = '';
+            this.TeamLeader = '';
+          }
+}

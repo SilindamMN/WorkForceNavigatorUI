@@ -11,6 +11,8 @@ import { JobTitleService } from '../../../services/hr/jobtitles.service';
 import { JobTitle } from '../../../models/hr/jobtitle';
 import { DepartmentsService } from '../../../services/hr/departments.service';
 import { Department } from '../../../models/hr/department';
+import { TeamsService } from '../../../services/hr/teams.service';
+import { UserTeamListDto } from '../../../models/hr/team';
 
 @Component({
   selector: 'app-users',
@@ -24,7 +26,10 @@ export class UsersComponent implements OnInit {
   departments: Department[] = [];
   jobTitles: JobTitle[] = [];
 
+  userTeams : UserTeamListDto[] = [];
+
   usersService = inject(UsersService);
+  teamsService = inject(TeamsService);
   jobTitlesService = inject(JobTitleService);
   departmentService = inject(DepartmentsService);
 
@@ -85,6 +90,7 @@ export class UsersComponent implements OnInit {
   { key: 'phoneNumber', label: 'Phone Number', type: 'text' },
   { key: 'salary', label: 'Salary', type: 'text' },
   { key: 'departmentId', label: 'Department', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'departmentName' },
+  { key: 'userId', label: 'Team', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
   { key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'title' },
   { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] } // plain strings, no optionValue/optionLabel needed
 ];
@@ -104,6 +110,9 @@ export class UsersComponent implements OnInit {
     // Pre-load the job titles for this user's existing department
     if (user.departmentId) {
       this.getJobTitleByDepartmentId(user.departmentId);
+    }
+    if(user.id){
+      this.getTeamsByUserId(user.id);
     }
   }
 
@@ -130,6 +139,17 @@ loadDepartments(): void {
   });
 }
 
+  getTeamsByUserId(userId: string): void {
+    this.teamsService.getTeamsByUserId(userId)
+      .subscribe(data => {
+      this.userTeams = data;
+      const field = this.userFields.find(f => f.key === 'userId');
+      if (field) {
+        field.options = data; // raw JobTitle[] objects
+      }
+      });
+  }
+
 getJobTitleByDepartmentId(departmentId: number): void {
   this.jobTitlesService.getJobTitleByDepartmentId(departmentId)
     .subscribe(data => {
@@ -139,5 +159,5 @@ getJobTitleByDepartmentId(departmentId: number): void {
         field.options = data; // raw JobTitle[] objects
       }
     });
-}
+  }
 }
