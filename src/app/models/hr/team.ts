@@ -33,3 +33,17 @@ export class TeamDto {
     this.departmentName = '';
   }
 }
+// DTO (for create/update)
+export class UserTeamListDto {
+  teamId?: number;
+  userName: string;
+  teamName: string;
+  teamLeader: string;
+
+  constructor() {
+    this.teamId = undefined;
+    this.userName = '';
+    this.teamName = '';
+    this.teamLeader = '';
+  }
+}

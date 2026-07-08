@@ -11,6 +11,8 @@ import { JobTitleService } from '../../../services/hr/jobtitles.service';
 import { JobTitle } from '../../../models/hr/jobtitle';
 import { DepartmentsService } from '../../../services/hr/departments.service';
 import { Department } from '../../../models/hr/department';
+import { TeamsService } from '../../../services/hr/teams.service';
+import { UserTeamListDto } from '../../../models/hr/team';
 
 @Component({
   selector: 'app-users',
@@ -23,10 +25,12 @@ export class UsersComponent implements OnInit {
   users: UserDto[] = [];
   departments: Department[] = [];
   jobTitles: JobTitle[] = [];
+  userTeams: UserTeamListDto[] = [];
 
   usersService = inject(UsersService);
   jobTitlesService = inject(JobTitleService);
   departmentService = inject(DepartmentsService);
+  teamsService = inject(TeamsService);
 
   showDrawer = false;
   selectedUser: any = {};
@@ -47,13 +51,12 @@ export class UsersComponent implements OnInit {
       this.selectedUser = { ...this.selectedUser, jobTitleId: null };
 
       if (event.value) {
-        this.getJobTitleByDepartmentId(+event.value);
+        this.getJobTitleByDepartmentId(event.value);
       } else {
         this.clearJobTitleOptions();
       }
     }
   }
-
 
   private clearJobTitleOptions(): void {
     this.jobTitles = [];
@@ -86,7 +89,8 @@ export class UsersComponent implements OnInit {
   { key: 'salary', label: 'Salary', type: 'text' },
   { key: 'departmentId', label: 'Department', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'departmentName' },
   { key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'title' },
-  { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] } // plain strings, no optionValue/optionLabel needed
+  { key: 'teamId', label: 'UserTeamListDto', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
+  { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] }
 ];
 
   createUser(): void {
@@ -100,10 +104,12 @@ export class UsersComponent implements OnInit {
     this.mode = 'update';
     this.selectedUser = { ...user };
     this.showDrawer = true;
-
-    // Pre-load the job titles for this user's existing department
     if (user.departmentId) {
       this.getJobTitleByDepartmentId(user.departmentId);
+    }
+    if (user.id) {
+      console.log('Fetching user teams for user ID:', user.id);
+    this.getUserTeamByUserId(user.id);
     }
   }
 
@@ -129,6 +135,16 @@ loadDepartments(): void {
     }
   });
 }
+
+getUserTeamByUserId(userId: string): void {
+  this.teamsService.getUserTeamByUserId(userId)
+    .subscribe(data =>{
+    this.userTeams = data;
+    const field = this.userFields.find(f => f.key === 'teamId');
+    if (field) {
+      field.options = data; // raw Team[] objects now — no manual mapping
+    } });
+  }
 
 getJobTitleByDepartmentId(departmentId: number): void {
   this.jobTitlesService.getJobTitleByDepartmentId(departmentId)
