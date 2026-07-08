@@ -105,13 +105,12 @@ export class UsersComponent implements OnInit {
   }
 
   editUserShowDrawer(user: any): void {
+    this.showDrawer = true;
     this.mode = 'update';
     this.selectedUser = { ...user };
-    this.showDrawer = true;
     if (user.departmentId) {
       this.getUserTeamByDepartmentId(user.departmentId);
-      console.log("Sawubone"+this.getUserTeamByDepartmentId(user.departmentId) +       this.getJobTitleByDepartmentId(user.departmentId, user.seniority as Seniority) );
-      this.getJobTitleByDepartmentId(user.departmentId, user.seniority as Seniority);
+       this.getJobTitleByDepartmentId(user.departmentId, user.seniority as Seniority);
     }
   }
 
@@ -146,15 +145,28 @@ getUserTeamByDepartmentId(departmentId: number): void {
     if (field) {
       field.options = data; // raw Team[] objects now — no manual mapping
     } });
-  }
-
+}
 getJobTitleByDepartmentId(departmentId: number, seniority: Seniority): void {
   this.jobTitlesService.getJobTitleByDepartmentId(departmentId, seniority)
     .subscribe(data => {
       this.jobTitles = data;
       const field = this.userFields.find(f => f.key === 'jobTitleId');
       if (field) {
-        field.options = data; // raw JobTitle[] objects
+        let options = data.at(0) ? data : [];
+
+        const currentJobTitleId = this.selectedUser?.jobTitleId;
+        if (currentJobTitleId && !options.some((o: any) => o.jobTitleId === currentJobTitleId)) {
+          options = [
+            {
+              id: currentJobTitleId, title: this.selectedUser.jobTitleName,
+              departmentName: '',
+              description: '',
+              seniority: ''
+            },
+            ...options
+          ];
+        }
+        field.options = options;
       }
     });
 }
