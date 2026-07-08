@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Client } from '../../models/hr/client';
 import { GenericCrudService } from '../generic.service';
 import { Team, UserTeamListDto } from '../../models/hr/team';
 import { Observable } from 'rxjs';
