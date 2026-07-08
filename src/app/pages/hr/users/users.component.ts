@@ -53,6 +53,7 @@ export class UsersComponent implements OnInit {
 
       if (event.value) {
         this.getJobTitleByDepartmentId(event.value, this.formData.seniority as Seniority);
+        this.getUserTeamByDepartmentId(event.value);
       } else {
         this.clearJobTitleOptions();
       }
@@ -89,8 +90,8 @@ export class UsersComponent implements OnInit {
   { key: 'username', label: 'Username', type: 'text' },
   { key: 'phoneNumber', label: 'Phone Number', type: 'text' },
   { key: 'salary', label: 'Salary', type: 'text' },
-  { key: 'departmentId', label: 'Department', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'departmentName' },
   { key: 'seniority', label: 'Seniority', type: 'dropdown', options: [...SeniorityOptions] },
+  { key: 'departmentId', label: 'Department', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'departmentName' },
   { key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'title' },
   { key: 'teamId', label: 'Team', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
   { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] }
@@ -108,11 +109,9 @@ export class UsersComponent implements OnInit {
     this.selectedUser = { ...user };
     this.showDrawer = true;
     if (user.departmentId) {
+      this.getUserTeamByDepartmentId(user.departmentId);
+      console.log("Sawubone"+this.getUserTeamByDepartmentId(user.departmentId) +       this.getJobTitleByDepartmentId(user.departmentId, user.seniority as Seniority) );
       this.getJobTitleByDepartmentId(user.departmentId, user.seniority as Seniority);
-    }
-    if (user.id) {
-      console.log('Fetching user teams for user ID:', user.id);
-    this.getUserTeamByUserId(user.id);
     }
   }
 
@@ -139,8 +138,8 @@ loadDepartments(): void {
   });
 }
 
-getUserTeamByUserId(userId: string): void {
-  this.teamsService.getUserTeamByUserId(userId)
+getUserTeamByDepartmentId(departmentId: number): void {
+  this.teamsService.getUserTeamByDepartmentId(departmentId)
     .subscribe(data =>{
     this.userTeams = data;
     const field = this.userFields.find(f => f.key === 'teamId');
