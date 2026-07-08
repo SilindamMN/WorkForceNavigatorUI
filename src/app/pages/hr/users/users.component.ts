@@ -13,6 +13,7 @@ import { DepartmentsService } from '../../../services/hr/departments.service';
 import { Department } from '../../../models/hr/department';
 import { TeamsService } from '../../../services/hr/teams.service';
 import { UserTeamListDto } from '../../../models/hr/team';
+import { Seniority, SeniorityOptions } from '../../../models/enums/seniority';
 
 @Component({
   selector: 'app-users',
@@ -51,7 +52,7 @@ export class UsersComponent implements OnInit {
       this.selectedUser = { ...this.selectedUser, jobTitleId: null };
 
       if (event.value) {
-        this.getJobTitleByDepartmentId(event.value);
+        this.getJobTitleByDepartmentId(event.value, this.formData.seniority as Seniority);
       } else {
         this.clearJobTitleOptions();
       }
@@ -76,7 +77,8 @@ export class UsersComponent implements OnInit {
     { key: 'email', label: 'Email' },
     { key: 'username', label: 'Username' },
     { key: 'phoneNumber', label: 'Phone Number' },
-    { key: 'gender', label: 'Gender' }
+    { key: 'gender', label: 'Gender' },
+    { key: 'seniority', label: 'Seniority' }
   ];
 
   // ================= FORM CONFIG =================
@@ -88,8 +90,9 @@ export class UsersComponent implements OnInit {
   { key: 'phoneNumber', label: 'Phone Number', type: 'text' },
   { key: 'salary', label: 'Salary', type: 'text' },
   { key: 'departmentId', label: 'Department', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'departmentName' },
+  { key: 'seniority', label: 'Seniority', type: 'dropdown', options: [...SeniorityOptions] },
   { key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'title' },
-  { key: 'teamId', label: 'UserTeamListDto', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
+  { key: 'teamId', label: 'Team', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
   { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] }
 ];
 
@@ -105,7 +108,7 @@ export class UsersComponent implements OnInit {
     this.selectedUser = { ...user };
     this.showDrawer = true;
     if (user.departmentId) {
-      this.getJobTitleByDepartmentId(user.departmentId);
+      this.getJobTitleByDepartmentId(user.departmentId, user.seniority as Seniority);
     }
     if (user.id) {
       console.log('Fetching user teams for user ID:', user.id);
@@ -146,8 +149,8 @@ getUserTeamByUserId(userId: string): void {
     } });
   }
 
-getJobTitleByDepartmentId(departmentId: number): void {
-  this.jobTitlesService.getJobTitleByDepartmentId(departmentId)
+getJobTitleByDepartmentId(departmentId: number, seniority: Seniority): void {
+  this.jobTitlesService.getJobTitleByDepartmentId(departmentId, seniority)
     .subscribe(data => {
       this.jobTitles = data;
       const field = this.userFields.find(f => f.key === 'jobTitleId');
