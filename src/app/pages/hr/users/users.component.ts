@@ -6,7 +6,7 @@ import { DrawerFormComponent } from '../../../shared/components/drawer-form/draw
 import { GenericTableComponent } from '../../../shared/components/generic-table/generic-table.component';
 import { FormField } from '../../../shared/models/form-field.model';
 import { GenderOptions } from '../../../models/enums/gender';
-import { UserDto } from '../../../models/hr/user';
+import { UpdateUserDetailsDto, UserDto } from '../../../models/hr/user';
 import { JobTitleService } from '../../../services/hr/jobtitles.service';
 import { JobTitle } from '../../../models/hr/jobtitle';
 import { DepartmentsService } from '../../../services/hr/departments.service';
@@ -43,22 +43,19 @@ export class UsersComponent implements OnInit {
   }
 
   // Called whenever ANY field in the drawer changes
-  onFormChange(event: { key: string; value: any }): void {
-    this.formData[event.key] = event.value;
+ onFormChange(event: { key: string; value: any }): void {
+  if (event.key === 'departmentId') {
+    const dept = this.departments.find(d => d.id === event.value);
+    this.selectedUser.departmentName = dept ? dept.departmentName : '';
 
-    if (event.key === 'departmentId') {
-      // reset job title whenever department changes
-      this.formData.jobTitleId = null;
-      this.selectedUser = { ...this.selectedUser, jobTitleId: null };
-
-      if (event.value) {
-        this.getJobTitleByDepartmentId(event.value, this.formData.seniority as Seniority);
-        this.getUserTeamByDepartmentId(event.value);
-      } else {
-        this.clearJobTitleOptions();
-      }
+    if (event.value) {
+      this.getJobTitleByDepartmentId(event.value, this.selectedUser?.seniority as Seniority);
+      this.getUserTeamByDepartmentId(event.value);
+    } else {
+      this.clearJobTitleOptions();
     }
   }
+}
 
   private clearJobTitleOptions(): void {
     this.jobTitles = [];
@@ -92,8 +89,7 @@ export class UsersComponent implements OnInit {
   { key: 'salary', label: 'Salary', type: 'text' },
   { key: 'seniority', label: 'Seniority', type: 'dropdown', options: [...SeniorityOptions] },
   { key: 'departmentId', label: 'Department', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'departmentName' },
-  { key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'title' },
-  { key: 'teamId', label: 'Team', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
+{ key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'jobTitleId', optionLabel: 'title' },  { key: 'teamId', label: 'Team', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
   { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] }
 ];
 
@@ -107,20 +103,36 @@ export class UsersComponent implements OnInit {
   editUserShowDrawer(user: any): void {
     this.showDrawer = true;
     this.mode = 'update';
-    this.selectedUser = { ...user };
+    this.selectedUser = { ...user };  
+    console.log('selectedUser jobTitleId:', this.selectedUser.jobTitleId); 
     if (user.departmentId) {
       this.getUserTeamByDepartmentId(user.departmentId);
        this.getJobTitleByDepartmentId(user.departmentId, user.seniority as Seniority);
     }
   }
 
-  UpdateUser(user: UserDto): void {
-    this.usersService.updateByKey(user, (user as any).username)
-      .subscribe(() => {
-        this.loadUsers();
-        this.showDrawer = false;
-      });
-  }
+ UpdateUser(user: UserDto): void {
+  const u = user as any;
+  u.departmentName = this.departments.find(d => d.id === u.departmentId)?.departmentName ?? u.departmentName;
+  u.teamName = this.userTeams.find((t: any) => t.id === u.teamId)?.teamName ?? u.teamName;
+  u.jobTitleName = this.jobTitles.find((j: any) => j.id === u.jobTitleId)?.title ?? u.jobTitleName;
+
+   const dto: UpdateUserDetailsDto = {
+    firstName: u.firstName,
+    lastName: u.lastName,
+    gender: u.gender,
+    jobTitleId: u.jobTitleId,
+    teamId: u.teamId,
+    seniority: u.seniority,
+    salary: u.salary,
+    phonenumber: u.phoneNumber
+  };
+    this.usersService.updateUserDetails(u.username, u.departmentId, dto)
+    .subscribe(() => {
+      this.loadUsers();
+      this.showDrawer = false;
+    });
+}
 
   deleteUser(user: any): void {
     this.users = this.users.filter(c => c !== user);
@@ -146,19 +158,21 @@ getUserTeamByDepartmentId(departmentId: number): void {
       field.options = data; // raw Team[] objects now — no manual mapping
     } });
 }
+
+
 getJobTitleByDepartmentId(departmentId: number, seniority: Seniority): void {
   this.jobTitlesService.getJobTitleByDepartmentId(departmentId, seniority)
     .subscribe(data => {
-      this.jobTitles = data;
+      this.jobTitles = data; console.log('raw job titles:', data);  
       const field = this.userFields.find(f => f.key === 'jobTitleId');
       if (field) {
         let options = data.at(0) ? data : [];
 
         const currentJobTitleId = this.selectedUser?.jobTitleId;
-        if (currentJobTitleId && !options.some((o: any) => o.jobTitleId === currentJobTitleId)) {
-          options = [
+if (currentJobTitleId && !options.some((o: any) => o.jobTitleId === currentJobTitleId)) {
+            options = [
             {
-              id: currentJobTitleId, title: this.selectedUser.jobTitleName,
+              jobTitleId: currentJobTitleId, title: this.selectedUser.jobTitleName,
               departmentName: '',
               description: '',
               seniority: ''

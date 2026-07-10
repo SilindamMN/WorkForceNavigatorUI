@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Seniority } from '../../models/enums/seniority';
 
 @Injectable({ providedIn: 'root' })
-export class JobTitleService extends GenericCrudService<JobTitle> {
+export class JobTitleService extends GenericCrudService<JobTitle & { id: string | number }> {
   constructor(http: HttpClient) {
     super(http, 'JobTitle');
   } 

@@ -55,8 +55,8 @@ jobTitleColumns = [
     this.showDrawer = true;
   }
 
-  updateJobTitle(jobTitle: JobTitle): void {
-    this.jobTitlesService.update(jobTitle, ``).subscribe(() => {
+  updateJobTitle(jobTitle: JobTitle & { id: string | number }): void {
+    this.jobTitlesService.update(jobTitle).subscribe(() => {
       this.loadJobTitles();
       this.showDrawer = false;
     });

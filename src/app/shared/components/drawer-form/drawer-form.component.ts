@@ -26,18 +26,21 @@ export class DrawerFormComponent implements OnChanges {
   formData: any = {};
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['model'] && this.model) {
-      this.formData = { ...this.model };
-    }
-    if (this.mode === 'create' && !this.model) {
-      this.formData = {};
-    }
+  if (changes['isOpen'] && this.isOpen) {
+    this.formData = this.model ? { ...this.model } : {};
   }
+}
 
-  onFieldChange(key: string, value: any): void {
-    this.formData[key] = value;
-    this.fieldChange.emit({ key, value });
-  }
+ onFieldChange(key: string, value: any): void {
+  this.formData[key] = value;
+
+  const field = this.fields.find(f => f.key === key);
+  field?.resetFields?.forEach((resetKey: string) => {
+    this.formData[resetKey] = null;
+  });
+
+  this.fieldChange.emit({ key, value });
+}
 
   // NEW: resolve the value to bind/send, based on field.optionValue
   getOptionValue(field: any, opt: any): any {
