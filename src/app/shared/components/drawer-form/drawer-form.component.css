@@ -109,3 +109,11 @@
   font-size: 18px;
   cursor: pointer;
 }
+
+.form-field.changed label {
+  color: #d97706;
+}
+.form-field.changed input,
+.form-field.changed select {
+  border-color: #d97706;
+}
