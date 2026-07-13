@@ -28,13 +28,13 @@ export class LeaveAllocationsComponent implements OnInit {
   ngOnInit(): void {
     this.loadLeaveAllocations();
   }
+
 leaveAllocationColumns = [
   { key: 'firstName', label: 'First Name' },
   { key: 'lastName', label: 'Last Name' },
-  { key: 'email', label: 'Email' },
   { key: 'username', label: 'Username' },
-  { key: 'phoneNumber', label: 'Phone Number' },
-  { key: 'gender', label: 'Gender' }
+  { key: 'leaveName', label: 'Leave Type' },
+  { key: 'numberOfDays', label: 'Number of Days' }
 ];
 leaveAllocationFields: FormField[] = [
   { key: 'firstName', label: 'First Name', type: 'text' },

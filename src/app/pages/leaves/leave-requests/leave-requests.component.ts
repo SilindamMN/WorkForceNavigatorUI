@@ -31,10 +31,12 @@ export class LeaveRequestsComponent implements OnInit {
 leaveRequestColumns = [
   { key: 'firstName', label: 'First Name' },
   { key: 'lastName', label: 'Last Name' },
-  { key: 'email', label: 'Email' },
-  { key: 'username', label: 'Username' },
-  { key: 'phoneNumber', label: 'Phone Number' },
-  { key: 'gender', label: 'Gender' }
+  { key: 'leaveName', label: 'Leave Type' },
+  { key: 'startDate', label: 'Start Date' },
+  { key: 'endDate', label: 'End Date' },
+  { key: 'requestedDate', label: 'Requested Date' },
+  { key: 'status', label: 'Status' },
+  { key: 'numberOfDays', label: 'Number of Days' }
 ];
 leaveRequestFields: FormField[] = [
   { key: 'firstName', label: 'First Name', type: 'text' },
@@ -49,7 +51,7 @@ leaveRequestFields: FormField[] = [
   }
 ];
   loadRequests(): void {
-    this.leaveRequestsService.getAll().subscribe(data => {
+    this.leaveRequestsService.getAll("/LeaveRequests").subscribe(data => {
       this.leaveRequests = data;
     });
   }
