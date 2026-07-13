@@ -15,4 +15,8 @@ export class JobTitleService extends GenericCrudService<JobTitle & { id: string 
       `${this.baseUrl}/Department/${departmentId}?seniority=${seniority}`
     );
   }
+
+  AssignJobTitleToUser( username: string,jobTitleId: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/AssignJobTitle`, { username, jobTitleId });
+  }
 }

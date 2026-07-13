@@ -184,4 +184,14 @@ if (currentJobTitleId && !options.some((o: any) => o.jobTitleId === currentJobTi
       }
     });
 }
+AssignJobTitleToUser(username: string, jobTitleId: number): void {
+  this.jobTitlesService.AssignJobTitleToUser(username, jobTitleId).subscribe({
+    next: () => {
+      alert('Job title assigned successfully.');
+    },
+    error: (error) => {
+      alert(error?.error?.message || 'Failed to assign job title.');
+    }
+  });
+}
 }
