@@ -12,7 +12,7 @@ import { JobTitle } from '../../../models/hr/jobtitle';
 import { DepartmentsService } from '../../../services/hr/departments.service';
 import { Department } from '../../../models/hr/department';
 import { TeamsService } from '../../../services/hr/teams.service';
-import { UserTeamListDto } from '../../../models/hr/team';
+import { AddMemberDto, UserTeamListDto } from '../../../models/hr/team';
 import { Seniority, SeniorityOptions } from '../../../models/enums/seniority';
 
 @Component({
@@ -193,5 +193,15 @@ AssignJobTitleToUser(username: string, jobTitleId: number): void {
       alert(error?.error?.message || 'Failed to assign job title.');
     }
   });
+}
+  AddMemberToTeam(request: AddMemberDto): void {
+    this.teamsService.addMemberToTeam(request).subscribe({
+      next: () => {
+        alert('Member added to team successfully.');    
+      },
+      error: (error) => {
+        alert(error?.error?.message || 'Failed to add member to team.');
+      }
+    });
 }
 }

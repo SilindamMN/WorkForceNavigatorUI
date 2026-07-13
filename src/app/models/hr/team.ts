@@ -46,4 +46,14 @@ export class UserTeamListDto {
     this.teamName = '';
     this.teamLeader = '';
   }
+}export class AddMemberDto {
+  teamId: number;
+  userId: string;
+  isRemoved?: boolean;
+
+  constructor() {
+    this.teamId = 0;
+    this.userId = '';
+this.isRemoved = false;
+  }
 }
