@@ -17,6 +17,6 @@
   (fieldChange)="onFormChange($event)"
   (saved)="UpdateUser($event)"
   (deleted)="deleteUser($event)"
-  (updated)="UpdateUser($event)"
+  (updated)="UpdateUser($event); AssignJobTitleToUser(selectedUser.username, $event.jobTitleId)"
   (closed)="showDrawer = false">
 </app-drawer-form>
