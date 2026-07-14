@@ -155,10 +155,9 @@ getUserTeamByDepartmentId(departmentId: number): void {
     this.userTeams = data;
     const field = this.userFields.find(f => f.key === 'teamId');
     if (field) {
-      field.options = data; // raw Team[] objects now — no manual mapping
+      field.options = data; 
     } });
 }
-
 
 getJobTitleByDepartmentId(departmentId: number, seniority: Seniority): void {
   this.jobTitlesService.getJobTitleByDepartmentId(departmentId, seniority)

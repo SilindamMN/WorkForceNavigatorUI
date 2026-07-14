@@ -16,6 +16,13 @@ export class DrawerFormComponent implements OnChanges {
   @Input() title = '';
   @Input() fields: any[] = [];
   @Input() model: any = {};
+  @Input() customButtons: {
+  label: string;
+  action: string;
+  class?: string;
+}[] = [];
+
+@Output() customButtonClick = new EventEmitter<string>();
 
   @Output() saved = new EventEmitter<any>();
   @Output() updated = new EventEmitter<any>();
@@ -25,10 +32,23 @@ export class DrawerFormComponent implements OnChanges {
 
   formData: any = {};
 
-  ngOnChanges(changes: SimpleChanges): void {
-  if (changes['isOpen'] && this.isOpen) {
-    this.formData = this.model ? { ...this.model } : {};
+ngOnChanges(changes: SimpleChanges): void {
+  if (changes['model'] || (changes['isOpen'] && this.isOpen)) {
+
+    this.formData = { ...this.model };
+
+    this.fields
+      .filter(field => field.type === 'date')
+      .forEach(field => {
+        const value = this.formData[field.key];
+        if (value) {
+          this.formData[field.key] = value.split('T')[0];
+        }
+      });
   }
+}
+onCustomButtonClick(action: string): void {
+  this.customButtonClick.emit(action);
 }
 
  onFieldChange(key: string, value: any): void {

@@ -100,6 +100,13 @@
   color: white;
   border-radius: 5px;
 }
+.customButtons{
+  background: #ff9800;
+  border: none;
+  padding: 10px 18px;
+  color: white;
+  border-radius: 5px;
+}
 
 /* CLOSE BUTTON */
 .close-btn {

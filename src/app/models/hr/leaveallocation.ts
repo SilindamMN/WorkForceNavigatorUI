@@ -18,11 +18,11 @@ export class LeaveAllocation {
 
 // DTO without id
 export class LeaveAllocationDto {
-  numberOfDays: number;
-  username: string;
-  leaveName: string;
-  firstName: string;
-  lastName: string;
+  numberOfDays?: number;
+  username?: string;
+  leaveName?: string;
+  firstName?: string;
+  lastName?: string;
 
   constructor() {
     this.numberOfDays = 0;

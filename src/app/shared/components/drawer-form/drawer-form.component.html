@@ -12,7 +12,7 @@
         <label>{{ field.label }}</label>
 
         <input
-          *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'number'"
+          *ngIf="field.type === 'text' || field.type ==='date' || field.type === 'email' || field.type === 'number'"
           [type]="field.type"
           [(ngModel)]="formData[field.key]"
           (ngModelChange)="onFieldChange(field.key, $event)" />
@@ -42,7 +42,12 @@
       <ng-container *ngIf="mode === 'update'">
         <button class="delete-btn" (click)="delete()">Delete</button>
         <button class="update-btn" (click)="update()">Update</button>
-      </ng-container>
+      </ng-container> <button
+    *ngFor="let btn of customButtons"
+    [class]="btn.class || 'update-btn'"
+    (click)="onCustomButtonClick(btn.action)">
+    {{ btn.label }}
+  </button>
     </div>
   </div>
 </div>

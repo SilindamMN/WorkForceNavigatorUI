@@ -16,9 +16,11 @@
   [isOpen]="showDrawer"
   [mode]="mode"
   [title]="'Leave Allocation'"
-  [fields]="leaveRequestColumns"
+  [fields]="leaveRequestFields"
   [model]="selectedRequest"
+  [customButtons]="customButtons"
   (saved)="updateRequest($event)"
   (deleted)="deleteRequest($event)"
+  (customButtonClick)="onCustomButtonClick($event)"
   (closed)="showDrawer = false">
 </app-drawer-form>

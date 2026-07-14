@@ -5,3 +5,10 @@ export const GenderOptions = [
 
 export type Gender = typeof GenderOptions[number];
 
+export const LeaveStatusOptions = [
+  'Pending',
+  'Approved',
+  'Rejected'
+] as const;
+
+export type LeaveStatus = typeof LeaveStatusOptions[number];

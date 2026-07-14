@@ -6,6 +6,8 @@ import { DrawerFormComponent } from '../../../shared/components/drawer-form/draw
 import { FormField } from '../../../shared/models/form-field.model';
 import { LeaverequestService } from '../../../services/work/leaverequest.service';
 import { LeaveRequest } from '../../../models/work/leaverequest';
+import { LeaveAllocationsService } from '../../../services/hr/leaveallocations.service';
+import { LeaveAllocationDto } from '../../../models/hr/leaveallocation';
 
 @Component({
   selector: 'app-leave-allocations',
@@ -16,14 +18,25 @@ import { LeaveRequest } from '../../../models/work/leaverequest';
 export class LeaveRequestsComponent implements OnInit {
 
   leaveRequests: LeaveRequest[] = [];
+  userLeaveAllocations: LeaveAllocationDto[] = [];
 
   leaveRequestsService = inject(LeaverequestService);
+  leaveAllocationsService = inject(LeaveAllocationsService);
 
   showDrawer = false;
 
   selectedRequest: any = {};
 
   mode: 'create' | 'update' = 'create';
+  processButtonValue :string = '';
+
+ customButtons = [
+    {
+      label: 'Process',
+      action: 'process',
+      class: 'process-btn'
+    }
+  ];
 
   ngOnInit(): void {
     this.loadRequests();
@@ -41,24 +54,33 @@ leaveRequestColumns = [
 leaveRequestFields: FormField[] = [
   { key: 'firstName', label: 'First Name', type: 'text' },
   { key: 'lastName', label: 'Last Name', type: 'text' },
-  { key: 'email', label: 'Email', type: 'email' },
-  { key: 'username', label: 'Username', type: 'text' },
-  { key: 'phoneNumber', label: 'Phone Number', type: 'text' },
+  { key: 'leaveName', label: 'Leave Type', type: 'dropdown' },
+  { key: 'requestedDate', label: 'Requested Date', type: 'date' },
+  { key: 'startDate', label: 'Start Date', type: 'date' },
+  { key: 'endDate', label: 'End Date', type: 'date' },
   {
-    key: 'gender',
-    label: 'Gender',
-    type: 'dropdown'
-  }
+    key: 'status',
+    label: 'Status',
+    type: 'dropdown',
+    options: [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Approved', value: 'Approved' },
+      { label: 'Rejected', value: 'Rejected' }
+    ]
+  },
+  { key: 'numberOfDays', label: 'Number of Days', type: 'number' }
 ];
   loadRequests(): void {
-    this.leaveRequestsService.getAll("/LeaveRequests").subscribe(data => {
+    this.leaveRequestsService.getAll("LeaveRequests").subscribe(data => {
       this.leaveRequests = data;
     });
   }
 
-  editRequestShowDrawer(allocation: any): void {
+  editRequestShowDrawer(user: any): void {  console.log("chec"+user);
+
     this.mode = 'update';
-    this.selectedRequest = { ...allocation };
+    this.selectedRequest = { ...user };
+    this.getLeaveAllocationsByUsername(this.selectedRequest.firstName);
     this.showDrawer = true;
   }
 
@@ -68,15 +90,56 @@ leaveRequestFields: FormField[] = [
       this.showDrawer = false;
     });
   }
+
    createRequest(): void {
     this.mode = 'create';
     this.selectedRequest = {};
     this.showDrawer = true;
   }
 
-
   deleteRequest(allocation: any): void {
     this.leaveRequests = this.leaveRequests.filter(a => a !== allocation);
     this.showDrawer = false;
   }
+onCustomButtonClick(action: string): void {
+  switch (action) {
+    case 'process':
+      this.processLeaveRequest(this.selectedRequest.id);
+      break;
+  }
+}
+  processLeaveRequest(leaveRequestId: number): void {
+    this.leaveRequestsService.processLeaveRequest(leaveRequestId,this.selectedRequest.status).subscribe(() => {
+      this.loadRequests();
+    });
+  }
+
+getLeaveAllocationsByUsername(username: string): void {
+  this.leaveAllocationsService
+    .getLeaveAllocationsByUsername(username)
+    .subscribe(data => {
+
+      const field = this.leaveRequestFields.find(f => f.key === 'leaveName');
+
+      if (field) {
+        let options = [...data];
+
+        const currentLeaveName = this.selectedRequest?.leaveName;
+
+        if (
+          currentLeaveName &&
+          !options.some(o => o.leaveName === currentLeaveName)
+        ) {
+          options.unshift({
+            leaveName: currentLeaveName,
+            numberOfDays: this.selectedRequest?.numberOfDays || 0,
+          });
+        }
+
+        field.options = options;
+        field.optionLabel = 'leaveName';
+        field.optionValue = 'leaveName'; // or 'id' if you want to save the ID
+      }
+    });
+}
 }
