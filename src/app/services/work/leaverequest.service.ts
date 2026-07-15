@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenericCrudService } from '../generic.service';
-import { LeaveRequest, LeaveRequestDto } from '../../models/work/leaverequest';
+import { LeaveRequest, LeaveRequestDto, UpdateLeaveRequestDto } from '../../models/work/leaverequest';
 import { Observable } from 'rxjs';
 import { LeaveStatus } from '../../models/enums/gender';
 
@@ -14,10 +14,20 @@ export class LeaverequestService extends GenericCrudService<LeaveRequest,LeaveRe
 processLeaveRequest(
   leaveRequestId: number,
   status: LeaveStatus
-): Observable<LeaveRequest> {
-  return this.http.post<LeaveRequest>(
+): Observable<  LeaveRequestDto> {
+  return this.http.post<LeaveRequestDto>(
     `${this.baseUrl}ProcessLeaveRequest?leaveRequestId=${leaveRequestId}&status=${status}`,
     null
+  );
+}
+
+updateLeaveRequest(
+  leaveRequestId: number,
+  leaveRequest: UpdateLeaveRequestDto
+) {
+  return this.http.put(
+    `${this.baseUrl}UpdateLeaveRequest?leaveRequestId=${leaveRequestId}`,
+    leaveRequest
   );
 }
 }
