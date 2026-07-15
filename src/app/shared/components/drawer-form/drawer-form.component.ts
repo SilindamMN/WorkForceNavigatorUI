@@ -21,8 +21,17 @@ export class DrawerFormComponent implements OnChanges {
   action: string;
   class?: string;
 }[] = [];
+@Output() customButtonClick = new EventEmitter<{
+  action: string;
+  data: any;
+}>();
 
-@Output() customButtonClick = new EventEmitter<string>();
+onCustomButtonClick(action: string): void {
+  this.customButtonClick.emit({
+    action,
+    data: this.formData
+  });
+}
 
   @Output() saved = new EventEmitter<any>();
   @Output() updated = new EventEmitter<any>();
@@ -47,9 +56,8 @@ ngOnChanges(changes: SimpleChanges): void {
       });
   }
 }
-onCustomButtonClick(action: string): void {
-  this.customButtonClick.emit(action);
-}
+
+
 
  onFieldChange(key: string, value: any): void {
   this.formData[key] = value;

@@ -11,10 +11,13 @@ export class LeaverequestService extends GenericCrudService<LeaveRequest,LeaveRe
     super(http, 'LeaveRequest/');
   }
 
- processLeaveRequest(leaveRequestId: number,status: LeaveStatus): Observable<LeaveRequest> {
+processLeaveRequest(
+  leaveRequestId: number,
+  status: LeaveStatus
+): Observable<LeaveRequest> {
   return this.http.post<LeaveRequest>(
-    `${this.baseUrl}ProcessLeaveRequest?leaveRequestId=${leaveRequestId}`,
-    {}
+    `${this.baseUrl}ProcessLeaveRequest?leaveRequestId=${leaveRequestId}&status=${status}`,
+    null
   );
 }
 }
