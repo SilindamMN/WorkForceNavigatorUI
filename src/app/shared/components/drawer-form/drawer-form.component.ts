@@ -57,8 +57,6 @@ ngOnChanges(changes: SimpleChanges): void {
   }
 }
 
-
-
  onFieldChange(key: string, value: any): void {
   this.formData[key] = value;
 

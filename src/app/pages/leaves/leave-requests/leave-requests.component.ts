@@ -5,10 +5,11 @@ import { GenericTableComponent } from '../../../shared/components/generic-table/
 import { DrawerFormComponent } from '../../../shared/components/drawer-form/drawer-form.component';
 import { FormField } from '../../../shared/models/form-field.model';
 import { LeaverequestService } from '../../../services/work/leaverequest.service';
-import { LeaveRequest, LeaveRequestDto, UpdateLeaveRequestDto } from '../../../models/work/leaverequest';
+import { CreateLeaveRequestDto, LeaveRequest, LeaveRequestDto, UpdateLeaveRequestDto } from '../../../models/work/leaverequest';
 import { LeaveAllocationsService } from '../../../services/hr/leaveallocations.service';
 import { LeaveAllocationDto } from '../../../models/hr/leaveallocation';
 import { LeaveStatus } from '../../../models/enums/gender';
+import { AuthserviceService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-leave-allocations',
@@ -20,6 +21,7 @@ export class LeaveRequestsComponent implements OnInit {
 
   leaveRequests: LeaveRequest[] = [];
   userLeaveAllocations: LeaveAllocationDto[] = [];
+authService = inject(AuthserviceService);
 
   leaveRequestsService = inject(LeaverequestService);
   leaveAllocationsService = inject(LeaveAllocationsService);
@@ -52,7 +54,14 @@ leaveRequestColumns = [
   { key: 'status', label: 'Status' },
   { key: 'numberOfDays', label: 'Number of Days' }
 ];
-leaveRequestFields: FormField[] = [
+
+createLeaveRequestFields: FormField[] = [
+  { key: 'leaveTypeId', label: 'Leave Type', type: 'dropdown' },
+  { key: 'startDate', label: 'Start Date', type: 'date' },
+  { key: 'endDate', label: 'End Date', type: 'date' }
+];
+
+updateLeaveRequestFields: FormField[] = [
   { key: 'firstName', label: 'First Name', type: 'text' },
   { key: 'lastName', label: 'Last Name', type: 'text' },
   { key: 'leaveName', label: 'Leave Type', type: 'dropdown' },
@@ -71,6 +80,7 @@ leaveRequestFields: FormField[] = [
   },
   { key: 'numberOfDays', label: 'Number of Days', type: 'number' }
 ];
+
   loadRequests(): void {
     this.leaveRequestsService.getAll("LeaveRequests").subscribe(data => {
       this.leaveRequests = data;
@@ -78,7 +88,6 @@ leaveRequestFields: FormField[] = [
   }
 
   editRequestShowDrawer(user: any): void {  console.log("chec"+user);
-
     this.mode = 'update';
     this.selectedRequest = { ...user };
     this.getLeaveAllocationsByUsername(this.selectedRequest.firstName);
@@ -92,11 +101,10 @@ leaveRequestFields: FormField[] = [
     });
   }
 
-  
-
    createRequest(): void {
-    this.mode = 'create';
-    this.selectedRequest = {};
+    this.mode = 'create';  
+      this.selectedRequest = {};
+    this.getLeaveAllocationsByUsername(this.authService.getUserFromStorage()?.username || '');
     this.showDrawer = true;
   }
 
@@ -122,8 +130,9 @@ getLeaveAllocationsByUsername(username: string): void {
   this.leaveAllocationsService
     .getLeaveAllocationsByUsername(username)
     .subscribe(data => {
-
-      const field = this.leaveRequestFields.find(f => f.key === 'leaveName');
+const field = this.mode === 'create'
+        ? this.createLeaveRequestFields.find(f => f.key === 'leaveTypeId')
+        : this.updateLeaveRequestFields.find(f => f.key === 'leaveName');
 
       if (field) {
         let options = [...data];
@@ -139,11 +148,27 @@ getLeaveAllocationsByUsername(username: string): void {
             numberOfDays: this.selectedRequest?.numberOfDays || 0,
           });
         }
+      field.options = options;
+field.optionLabel = 'leaveName';
 
-        field.options = options;
-        field.optionLabel = 'leaveName';
-        field.optionValue = 'leaveName'; // or 'id' if you want to save the ID
+if (this.mode === 'create') {
+  field.optionValue = 'leaveTypeId';
+} else {
+  field.optionValue = 'leaveName';
+}
       }
     });
+}
+  getdrawerFields(): FormField[] {
+    if (this.mode === 'create') {
+      return this.createLeaveRequestFields;
+    }
+    return this.updateLeaveRequestFields;
+  }
+createLeaveRequest(leaveRequest: CreateLeaveRequestDto): void {
+   this.leaveRequestsService.createLeaveRequest(leaveRequest).subscribe(() => {
+    this.loadRequests();
+    this.showDrawer = false;
+  });
 }
 }

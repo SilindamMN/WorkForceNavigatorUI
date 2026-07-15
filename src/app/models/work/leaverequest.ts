@@ -27,7 +27,6 @@ export class CreateLeaveRequestDto {
   leaveTypeId = 0;
   startDate = new Date();
   endDate = new Date();
-  numberOfDays = 0;
 }
 
 export class MyLeaveRequestDto {
