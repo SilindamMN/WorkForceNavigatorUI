@@ -19,7 +19,7 @@
   [fields]="leaveRequestFields"
   [model]="selectedRequest"
   [customButtons]="customButtons"
-  (saved)="updateRequest($event)"
+  (updated)="updateRequest(selectedRequest.id, $event)"
   (deleted)="deleteRequest($event)"
   (customButtonClick)="onCustomButtonClick($event)"
   (closed)="showDrawer = false">

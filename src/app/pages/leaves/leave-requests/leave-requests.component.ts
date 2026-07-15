@@ -5,7 +5,7 @@ import { GenericTableComponent } from '../../../shared/components/generic-table/
 import { DrawerFormComponent } from '../../../shared/components/drawer-form/drawer-form.component';
 import { FormField } from '../../../shared/models/form-field.model';
 import { LeaverequestService } from '../../../services/work/leaverequest.service';
-import { LeaveRequest } from '../../../models/work/leaverequest';
+import { LeaveRequest, LeaveRequestDto, UpdateLeaveRequestDto } from '../../../models/work/leaverequest';
 import { LeaveAllocationsService } from '../../../services/hr/leaveallocations.service';
 import { LeaveAllocationDto } from '../../../models/hr/leaveallocation';
 import { LeaveStatus } from '../../../models/enums/gender';
@@ -85,12 +85,14 @@ leaveRequestFields: FormField[] = [
     this.showDrawer = true;
   }
 
-  updateRequest(allocation: LeaveRequest): void {
-    this.leaveRequestsService.update(allocation, ``).subscribe(() => {
+  updateRequest(leaveRequestId: number, leaveRequest: UpdateLeaveRequestDto): void {
+    this.leaveRequestsService.updateLeaveRequest(leaveRequestId, leaveRequest).subscribe(() => {
       this.loadRequests();
       this.showDrawer = false;
     });
   }
+
+  
 
    createRequest(): void {
     this.mode = 'create';
