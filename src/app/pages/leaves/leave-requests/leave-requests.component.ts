@@ -8,6 +8,7 @@ import { LeaverequestService } from '../../../services/work/leaverequest.service
 import { LeaveRequest } from '../../../models/work/leaverequest';
 import { LeaveAllocationsService } from '../../../services/hr/leaveallocations.service';
 import { LeaveAllocationDto } from '../../../models/hr/leaveallocation';
+import { LeaveStatus } from '../../../models/enums/gender';
 
 @Component({
   selector: 'app-leave-allocations',
@@ -101,15 +102,16 @@ leaveRequestFields: FormField[] = [
     this.leaveRequests = this.leaveRequests.filter(a => a !== allocation);
     this.showDrawer = false;
   }
-onCustomButtonClick(action: string): void {
-  switch (action) {
+
+onCustomButtonClick(event: { action: string; data: any }): void {
+  switch (event.action) {
     case 'process':
-      this.processLeaveRequest(this.selectedRequest.id);
+      this.processLeaveRequest(event.data.id, event.data.status);
       break;
   }
 }
-  processLeaveRequest(leaveRequestId: number): void {
-    this.leaveRequestsService.processLeaveRequest(leaveRequestId,this.selectedRequest.status).subscribe(() => {
+  processLeaveRequest(leaveRequestId: number,status: LeaveStatus): void {
+    this.leaveRequestsService.processLeaveRequest(leaveRequestId,status).subscribe(() => {
       this.loadRequests();
     });
   }
