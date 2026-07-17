@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./drawer-form.component.css']
 })
 export class DrawerFormComponent implements OnChanges {
-
+@Input() customContent: any;
   @Input() isOpen = false;
   @Input() mode: 'create' | 'update' = 'create';
   @Input() title = '';
@@ -40,29 +40,38 @@ onCustomButtonClick(action: string): void {
   @Output() fieldChange = new EventEmitter<{ key: string; value: any }>();
 
   formData: any = {};
+  isMultiple = false;
 
 ngOnChanges(changes: SimpleChanges): void {
   if (changes['model'] || (changes['isOpen'] && this.isOpen)) {
 
-    this.formData = { ...this.model };
+    this.isMultiple = Array.isArray(this.model);
 
-    this.fields
-      .filter(field => field.type === 'date')
-      .forEach(field => {
-        const value = this.formData[field.key];
-        if (value) {
-          this.formData[field.key] = value.split('T')[0];
-        }
-      });
+    this.formData = this.isMultiple
+      ? this.model.map((m: any) => this.normalizeDates({ ...m }))
+      : this.normalizeDates({ ...this.model });
   }
 }
 
- onFieldChange(key: string, value: any): void {
-  this.formData[key] = value;
+private normalizeDates(data: any): any {
+  this.fields
+    .filter(field => field.type === 'date')
+    .forEach(field => {
+      const value = data[field.key];
+      if (value) {
+        data[field.key] = value.split('T')[0];
+      }
+    });
+  return data;
+}
+
+ onFieldChange(key: string, value: any, index?: number): void {
+  const target = this.isMultiple ? this.formData[index!] : this.formData;
+  target[key] = value;
 
   const field = this.fields.find(f => f.key === key);
   field?.resetFields?.forEach((resetKey: string) => {
-    this.formData[resetKey] = null;
+    target[resetKey] = null;
   });
 
   this.fieldChange.emit({ key, value });

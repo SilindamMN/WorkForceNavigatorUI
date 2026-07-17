@@ -1,17 +1,16 @@
 <div class="table-wrapper">
-   
-  <!-- CREATE BUTTON -->
-  <div class="table-header">
-    <button class="ui primary button" (click)="onCreate()">
-      + Create
-    </button>
 
-  </div>
-
-  <!-- TABLE -->
   <table class="ui very basic compact table">
-
     <thead>
+     <tr>
+       <button
+      *ngFor="let button of optionalButtons"
+      type="button"
+      class="ui button"
+      (click)="onOptionalButtonClick(button)">
+      {{ button.label }}
+    </button>
+     </tr>
       <tr>
         <th *ngFor="let col of columns">
           {{ col.label }}
@@ -20,42 +19,14 @@
     </thead>
 
     <tbody>
-
       <tr *ngFor="let row of pagedData"
           (click)="onRowClick(row)">
-
         <td *ngFor="let col of columns">
           {{ row[col.key] }}
         </td>
-
       </tr>
-
     </tbody>
 
   </table>
-
-  <!-- PAGINATION -->
-  <div class="pagination-wrapper ui small menu">
-
-    <a class="item"
-       (click)="changePage(page - 1)"
-       [class.disabled]="page === 1">
-      ‹ Prev
-    </a>
-
-    <a class="item"
-       *ngFor="let p of pages"
-       (click)="changePage(p)"
-       [class.active]="page === p">
-      {{ p }}
-    </a>
-
-    <a class="item"
-       (click)="changePage(page + 1)"
-       [class.disabled]="page === totalPages">
-      Next ›
-    </a>
-
-  </div>
 
 </div>
