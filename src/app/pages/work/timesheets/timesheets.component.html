@@ -1,24 +1,29 @@
-<div class="clients-wrapper">
+<div class="table-drawer-wrapper">
 
-  <!-- GENERIC TABLE -->
-  <app-generic-table
-    [data]="timesheets"
-    [columns]="timesheetColumns"
-    [pageSize]="10"
-    (rowClick)="editTimesheetShowDrawer($event)"
-    (create)="createTimesheet()">
-  </app-generic-table>
+  <div class="clients-wrapper">
 
-</div>
+    <app-generic-table
+      [data]="timesheets"
+      [columns]="timesheetColumns"
+      [optionalButtons]="[
+        { label: '← Back', action: 'back' },
+        { label: '→ Forward', action: 'forward' }
+      ]"
+      (optionalButtonClick)="handleButton($event)"
+      (rowClick)="editTimesheetShowDrawer($event.date.toString().split('T')[0])"
+      >
+    </app-generic-table>
 
-<!-- DRAWER -->
+  </div>
+
 <app-drawer-form
   [isOpen]="showDrawer"
   [mode]="mode"
   [title]="'Timesheet'"
   [fields]="timesheetFields"
   [model]="selectedTimesheet"
-  (saved)="saveDepartment($event)"
-  (deleted)="deleteTimesheet($event)"
   (closed)="showDrawer = false">
+
 </app-drawer-form>
+
+</div>

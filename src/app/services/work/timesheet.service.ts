@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenericCrudService } from '../generic.service';
-import { Timesheet, TimesheetDetail } from '../../models/work/timesheet';
+import { Timesheet, TimesheetSummary } from '../../models/work/timesheet';
 
 @Injectable({ providedIn: 'root' })
-export class TimesheetService extends GenericCrudService<Timesheet,TimesheetDetail> {
+export class TimesheetService extends GenericCrudService<Timesheet,TimesheetSummary> {
   constructor(http: HttpClient) {
     super(http, 'Timesheet');
   }
+
+getTimesheetSummary(weekOffSet?: number) {
+  return this.http.get<TimesheetSummary[]>(
+    `${this.baseUrl}?weekOffSet=${weekOffSet}`
+  );
+}
+getTimesheetDetails(timesheetDate: string) {
+  return this.http.get<Timesheet[]>(
+    `${this.baseUrl}/Date?date=${timesheetDate}`
+  );
+}
 }

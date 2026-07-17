@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+export interface OptionalButton {
+  label: string;
+  action: string;
+}
+
 @Component({
   selector: 'app-generic-table',
   standalone: true,
@@ -12,18 +17,15 @@ export class GenericTableComponent {
 
   @Input() data: any[] = [];
   @Input() columns: { key: string; label: string }[] = [];
-  @Input() pageSize = 12;
+  @Input() pageSize = 10;
 
-  // pagination
-  page = 1;
+  @Input() optionalButtons: OptionalButton[] = [];
 
-  // core events
-  @Output() rowClick = new EventEmitter<any>();
   @Output() create = new EventEmitter<void>();
+  @Output() rowClick = new EventEmitter<any>();
+  @Output() optionalButtonClick = new EventEmitter<OptionalButton>();
 
-  // action events (scalable → 11+ supported)
-  @Output() edit = new EventEmitter<any>();
-  @Output() delete = new EventEmitter<any>();
+  page = 1;
 
   get pagedData(): any[] {
     const start = (this.page - 1) * this.pageSize;
@@ -35,30 +37,23 @@ export class GenericTableComponent {
   }
 
   get pages(): number[] {
-    return Array(this.totalPages).fill(0).map((_, i) => i + 1);
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  changePage(p: number): void {
-    if (p < 1 || p > this.totalPages) return;
-    this.page = p;
-  }
-
-  // events
-  onRowClick(row: any): void {
-    this.rowClick.emit(row);
+  changePage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.page = page;
   }
 
   onCreate(): void {
     this.create.emit();
   }
 
-  onEdit(row: any, event: Event): void {
-    event.stopPropagation();
-    this.edit.emit(row);
+  onRowClick(row: any): void {
+    this.rowClick.emit(row);
   }
 
-  onDelete(row: any, event: Event): void {
-    event.stopPropagation();
-    this.delete.emit(row);
+  onOptionalButtonClick(button: OptionalButton): void {
+    this.optionalButtonClick.emit(button);
   }
 }

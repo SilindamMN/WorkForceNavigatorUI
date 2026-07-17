@@ -6,48 +6,82 @@
   </div>
 
   <div class="drawer-body">
-    <div class="form-grid">
 
-      <div class="form-field" *ngFor="let field of fields">
-        <label>{{ field.label }}</label>
+    <ng-container *ngIf="!isMultiple">
+      <div class="form-grid">
+        <div class="form-field" *ngFor="let field of fields">
+          <label>{{ field.label }}</label>
 
-        <input
-          *ngIf="field.type === 'text' || field.type ==='date' || field.type === 'email' || field.type === 'number'"
-          [type]="field.type"
-          [(ngModel)]="formData[field.key]"
-          (ngModelChange)="onFieldChange(field.key, $event)" />
+          <input
+            *ngIf="field.type === 'text' || field.type ==='date' || field.type === 'email' || field.type === 'number'"
+            [type]="field.type"
+            [(ngModel)]="formData[field.key]"
+            (ngModelChange)="onFieldChange(field.key, $event)" />
 
-        <select
-          *ngIf="field.type === 'dropdown' && field.options?.length"
-          [(ngModel)]="formData[field.key]"
-          (ngModelChange)="onFieldChange(field.key, $event)">
+          <select
+            *ngIf="field.type === 'dropdown' && field.options?.length"
+            [(ngModel)]="formData[field.key]"
+            (ngModelChange)="onFieldChange(field.key, $event)">
 
-          <option [ngValue]="null">Select {{ field.label }}</option>
+            <option [ngValue]="null">Select {{ field.label }}</option>
 
-          <option *ngFor="let opt of field.options" [ngValue]="getOptionValue(field, opt)">
-            {{ getOptionLabel(field, opt) }}
-          </option>
-        </select>
+            <option *ngFor="let opt of field.options" [ngValue]="getOptionValue(field, opt)">
+              {{ getOptionLabel(field, opt) }}
+            </option>
+          </select>
 
-        <div class="dropdown-loading" *ngIf="field.type === 'dropdown' && !field.options?.length">
-          Loading {{ field.label }}...
+          <div class="dropdown-loading" *ngIf="field.type === 'dropdown' && !field.options?.length">
+            Loading {{ field.label }}...
+          </div>
         </div>
-
       </div>
+    </ng-container>
 
-    </div>
+    <ng-container *ngIf="isMultiple">
+      <div class="entry-block" *ngFor="let entry of formData; let i = index">
+        <div class="form-grid">
+          <div class="form-field" *ngFor="let field of fields">
+            <label>{{ field.label }}</label>
+
+            <input
+              *ngIf="field.type === 'text' || field.type ==='date' || field.type === 'email' || field.type === 'number'"
+              [type]="field.type"
+              [(ngModel)]="entry[field.key]"
+              (ngModelChange)="onFieldChange(field.key, $event, i)" />
+
+            <select
+              *ngIf="field.type === 'dropdown' && field.options?.length"
+              [(ngModel)]="entry[field.key]"
+              (ngModelChange)="onFieldChange(field.key, $event, i)">
+
+              <option [ngValue]="null">Select {{ field.label }}</option>
+
+              <option *ngFor="let opt of field.options" [ngValue]="getOptionValue(field, opt)">
+                {{ getOptionLabel(field, opt) }}
+              </option>
+            </select>
+
+            <div class="dropdown-loading" *ngIf="field.type === 'dropdown' && !field.options?.length">
+              Loading {{ field.label }}...
+            </div>
+          </div>
+        </div>
+        <hr *ngIf="i < formData.length - 1" />
+      </div>
+    </ng-container>
 
     <div class="action-bar">
       <button *ngIf="mode === 'create'" class="save-btn" (click)="save()">Save</button>
       <ng-container *ngIf="mode === 'update'">
         <button class="delete-btn" (click)="delete()">Delete</button>
         <button class="update-btn" (click)="update()">Update</button>
-      </ng-container> <button
-    *ngFor="let btn of customButtons"
-    [class]="btn.class || 'update-btn'"
-    (click)="onCustomButtonClick(btn.action)">
-    {{ btn.label }}
-  </button>
+      </ng-container>
+      <button
+        *ngFor="let btn of customButtons"
+        [class]="btn.class || 'update-btn'"
+        (click)="onCustomButtonClick(btn.action)">
+        {{ btn.label }}
+      </button>
     </div>
   </div>
 </div>
