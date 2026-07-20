@@ -20,8 +20,8 @@
   [isOpen]="showDrawer"
   [mode]="mode"
   [title]="'Timesheet'"
-  [fields]="timesheetFields"
-  [model]="selectedTimesheet"
+[fields]="mode === 'create' ? timesheetCreateFields : timesheetFields"  [model]="selectedTimesheet"
+  (saved)="createTimesheet()"
   (closed)="showDrawer = false">
 
 </app-drawer-form>
