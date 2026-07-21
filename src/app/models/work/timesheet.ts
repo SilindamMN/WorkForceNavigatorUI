@@ -14,5 +14,5 @@ export class Timesheet {
   description = '';
   timeSpent = 0;
   projectId = 0;
-  projectName = '';
+  projectNames = '';
 }

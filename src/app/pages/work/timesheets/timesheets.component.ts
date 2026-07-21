@@ -39,7 +39,7 @@ weekOffSet = 0;
 
  getUserProjectByUserName(username: string): void {
   this.projectsService.getUserProjectByUserName(username).subscribe(data => {
-    const projectField = this.timesheetCreateFields.find(f => f.key === 'projectName');
+    const projectField = this.timesheetCreateFields.find(f => f.key === 'projectId');
     if (projectField) {
       projectField.options = data;
     }
@@ -61,7 +61,7 @@ weekOffSet = 0;
   { key: 'timesheetDate', label: 'Date', type: 'date' },
   { key: 'description', label: 'Description', type: 'text' },
   { key: 'timeSpent', label: 'Hours', type: 'number' },
-{ key: 'projectName', label: 'Project', type: 'dropdown', options: [], optionValue: 'projectId', optionLabel: 'projectName' }];
+{ key: 'projectId', label: 'Project', type: 'dropdown', options: [], optionValue: 'projectId', optionLabel: 'projectName' }];
 
  timesheetColumns = [
   { key: 'date', label: 'Date' },
@@ -72,7 +72,7 @@ weekOffSet = 0;
 
   createTimesheet(): void {
     this.mode = 'create';
-    this.selectedTimesheet =  [];
+    this.selectedTimesheet =  {} as Timesheet;
     this.showDrawer = true;
   }
 
@@ -80,7 +80,7 @@ editTimesheetShowDrawer(day: any): void {
   this.timesheetsService.getTimesheetDetails(day).subscribe(data => {
     if (data.length > 0) {
       this.mode = 'update';
-      this.selectedTimesheet = data;
+      this.selectedTimesheet = data || [];
     } else {
       this.mode = 'create';
       this.selectedTimesheet = { timesheetDate: day } as Timesheet;
@@ -132,18 +132,16 @@ getTimesheetDetails(timesheetDate: string): void {
     this.timesheetDetails = {...data} ;
   });
 }
-/*
-   saveDepartment(timesheet: Timesheet): void {
-      this.timesheetsService.create(timesheet,'/CreateDepartment').subscribe(newClient => {
-        this.timesheets.push(newClient);
-        this.showDrawer = false;
-      });
-      this.showDrawer = false;
-    }
 
+  saveDepartment(timesheet: any): void {
+  this.timesheetsService.create(timesheet,"/Create").subscribe(() => {
+    this.loadTimesheets();
+    this.showDrawer = false;
+  });
+}
+/*
   deleteTimesheet(timesheet: Timesheet): void {
     this.timesheets = this.timesheets.filter(t => t !== timesheet);
     this.showDrawer = false;
-  }
-  */
+  }*/
 }

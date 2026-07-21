@@ -18,6 +18,7 @@ export class GenericTableComponent {
   @Input() data: any[] = [];
   @Input() columns: { key: string; label: string }[] = [];
   @Input() pageSize = 10;
+  @Input() showCreate = false;
 
   @Input() optionalButtons: OptionalButton[] = [];
 

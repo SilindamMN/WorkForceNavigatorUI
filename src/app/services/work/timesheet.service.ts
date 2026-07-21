@@ -4,7 +4,7 @@ import { GenericCrudService } from '../generic.service';
 import { Timesheet, TimesheetSummary } from '../../models/work/timesheet';
 
 @Injectable({ providedIn: 'root' })
-export class TimesheetService extends GenericCrudService<Timesheet,TimesheetSummary> {
+export class TimesheetService extends GenericCrudService<Timesheet,TimesheetSummary | Timesheet> {
   constructor(http: HttpClient) {
     super(http, 'Timesheet');
   }

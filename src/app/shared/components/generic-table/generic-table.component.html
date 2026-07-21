@@ -2,7 +2,13 @@
 
   <table class="ui very basic compact table">
     <thead>
-     <tr>
+     <tr> <button
+            *ngIf="showCreate"
+            type="button"
+            class="ui primary button"
+            (click)="onCreate()">
+            + Create
+          </button>
        <button
       *ngFor="let button of optionalButtons"
       type="button"

@@ -4,6 +4,8 @@
 
     <app-generic-table
       [data]="timesheets"
+      [showCreate]="true" 
+       (create)="createTimesheet()"
       [columns]="timesheetColumns"
       [optionalButtons]="[
         { label: '← Back', action: 'back' },
@@ -21,7 +23,7 @@
   [mode]="mode"
   [title]="'Timesheet'"
 [fields]="mode === 'create' ? timesheetCreateFields : timesheetFields"  [model]="selectedTimesheet"
-  (saved)="createTimesheet()"
+  (saved)="saveDepartment($event)"
   (closed)="showDrawer = false">
 
 </app-drawer-form>
