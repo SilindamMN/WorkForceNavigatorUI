@@ -49,7 +49,7 @@ leaveAllocationFields: FormField[] = [
   }
 ];
   loadLeaveAllocations(): void {
-    this.leaveAllocationsService.getAll('LeaveAllocations').subscribe(data => {
+    this.leaveAllocationsService.getAll('all').subscribe(data => {
       this.leaveAllocations = data;
     });
   }

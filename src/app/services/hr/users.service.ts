@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class UsersService extends GenericCrudService<User> {
   constructor(http: HttpClient) {
-    super(http, 'Auth/');
+    super(http, 'users');
   }
  updateUserDetails(username: string, departmentId: number, dto: UpdateUserDetailsDto): Observable<UpdateUserDetailsDto> {
   return this.http.put<UpdateUserDetailsDto>(

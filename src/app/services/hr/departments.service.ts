@@ -9,6 +9,6 @@ import { Department } from '../../models/hr/department';
 export class DepartmentsService extends GenericCrudService<Department> {
 
   constructor(http: HttpClient) {
-    super(http,'Department');
+    super(http,'departments');
   }
 }

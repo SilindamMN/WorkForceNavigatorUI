@@ -6,6 +6,6 @@ import { GenericCrudService } from '../generic.service';
 @Injectable({ providedIn: 'root' })
 export class ClientService extends GenericCrudService<Client> {
   constructor(http: HttpClient) {
-    super(http, 'Client');
+    super(http, 'clients');
   }
 }

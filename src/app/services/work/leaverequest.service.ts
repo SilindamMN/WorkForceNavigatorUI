@@ -8,7 +8,7 @@ import { LeaveStatus } from '../../models/enums/gender';
 @Injectable({ providedIn: 'root' })
 export class LeaverequestService extends GenericCrudService<LeaveRequest,LeaveRequestDto> {
   constructor(http: HttpClient) {
-    super(http, 'LeaveRequest/');
+    super(http, 'leave-requests');
   }
 
 processLeaveRequest(

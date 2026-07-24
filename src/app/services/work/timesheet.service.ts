@@ -6,17 +6,17 @@ import { Timesheet, TimesheetSummary } from '../../models/work/timesheet';
 @Injectable({ providedIn: 'root' })
 export class TimesheetService extends GenericCrudService<Timesheet,TimesheetSummary | Timesheet> {
   constructor(http: HttpClient) {
-    super(http, 'Timesheet');
+    super(http, 'timesheet/');
   }
 
-getTimesheetSummary(weekOffSet?: number) {
+getTimesheetSummary(weekOffSet?: number,) {
   return this.http.get<TimesheetSummary[]>(
-    `${this.baseUrl}?weekOffSet=${weekOffSet}`
+    `${this.baseUrl}week-off-set?weekOffSet=${weekOffSet}`
   );
 }
 getTimesheetDetails(timesheetDate: string) {
   return this.http.get<Timesheet[]>(
-    `${this.baseUrl}/Date?date=${timesheetDate}`
+    `${this.baseUrl}by-date?date=${timesheetDate}`
   );
 }
 }

@@ -37,14 +37,7 @@ weekOffSet = 0;
     this.getUserProjectByUserName(this.username);
   }
 
- getUserProjectByUserName(username: string): void {
-  this.projectsService.getUserProjectByUserName(username).subscribe(data => {
-    const projectField = this.timesheetCreateFields.find(f => f.key === 'projectId');
-    if (projectField) {
-      projectField.options = data;
-    }
-  });
-}
+
 
   // ================= FORM CONFIG =================
 
@@ -75,7 +68,14 @@ weekOffSet = 0;
     this.selectedTimesheet =  {} as Timesheet;
     this.showDrawer = true;
   }
-
+ getUserProjectByUserName(username: string): void {
+  this.projectsService.getUserProjectByUserName(username).subscribe(data => {
+    const projectField = this.timesheetCreateFields.find(f => f.key === 'projectId');
+    if (projectField) {
+      projectField.options = data;
+    }
+  });
+}
 editTimesheetShowDrawer(day: any): void {
   this.timesheetsService.getTimesheetDetails(day).subscribe(data => {
     if (data.length > 0) {
@@ -134,7 +134,7 @@ getTimesheetDetails(timesheetDate: string): void {
 }
 
   saveDepartment(timesheet: any): void {
-  this.timesheetsService.create(timesheet,"/Create").subscribe(() => {
+  this.timesheetsService.create(timesheet,"create").subscribe(() => {
     this.loadTimesheets();
     this.showDrawer = false;
   });

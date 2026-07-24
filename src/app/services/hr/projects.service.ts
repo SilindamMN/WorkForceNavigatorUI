@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ProjectsService extends GenericCrudService<Project> {
   constructor(http: HttpClient) {
-    super(http, 'Project/');
+    super(http, 'projects/');
   }
 
   getUserProjectByUserName(username:string): Observable<any>{
    return this.http.get<any>(
-    `${this.baseUrl}username/${username}`
+    `${this.baseUrl}by-username/${username}`
    );
   }
 }

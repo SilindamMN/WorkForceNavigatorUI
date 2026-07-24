@@ -82,7 +82,7 @@ updateLeaveRequestFields: FormField[] = [
 ];
 
   loadRequests(): void {
-    this.leaveRequestsService.getAll("LeaveRequests").subscribe(data => {
+    this.leaveRequestsService.getAll('/upcoming').subscribe(data => {
       this.leaveRequests = data;
     });
   }
