@@ -89,7 +89,8 @@ export class UsersComponent implements OnInit {
   { key: 'salary', label: 'Salary', type: 'text' },
   { key: 'seniority', label: 'Seniority', type: 'dropdown', options: [...SeniorityOptions] },
   { key: 'departmentId', label: 'Department', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'departmentName' },
-{ key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'jobTitleId', optionLabel: 'title' },  { key: 'teamId', label: 'Team', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
+{ key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'jobTitleId', optionLabel: 'title' },  
+{ key: 'teamId', label: 'Team', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
   { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] }
 ];
 

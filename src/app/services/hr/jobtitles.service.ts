@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenericCrudService } from '../generic.service';
-import { JobTitle } from '../../models/hr/jobtitle';
+import { JobTitle, JobTitleDto } from '../../models/hr/jobtitle';
 import { Observable } from 'rxjs';
 import { Seniority } from '../../models/enums/seniority';
 
@@ -19,4 +19,8 @@ export class JobTitleService extends GenericCrudService<JobTitle & { id: string 
   AssignJobTitleToUser( username: string,jobTitleId: number): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/AssignJobTitle`, { username, jobTitleId });
   }
+
+ CreateJobTitle(jobTitle: JobTitleDto): Observable<JobTitle> {
+  return this.http.post<JobTitle>(`${this.baseUrl}/create`, jobTitle);
+}
 }

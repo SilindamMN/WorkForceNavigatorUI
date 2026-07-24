@@ -9,16 +9,16 @@ import { GenericTableComponent } from '../../../shared/components/generic-table/
 
 @Component({
   selector: 'app-departments',
-  imports: [CommonModule, RouterModule,GenericTableComponent, DrawerFormComponent],
+  imports: [CommonModule, RouterModule, GenericTableComponent, DrawerFormComponent],
   templateUrl: './departments.component.html',
   styleUrl: './departments.component.css'
 })
-export class DepartmentsComponent implements OnInit   {
-  departments : Department[] = [];  
-   departmentService = inject(DepartmentsService);
-     showDrawer = false;
+export class DepartmentsComponent implements OnInit {
+  departments: Department[] = [];
+  departmentService = inject(DepartmentsService);
+  showDrawer = false;
   selectedDepartment: any = {};
- departmentFields: FormField[] = [
+  departmentFields: FormField[] = [
     { key: 'departmentName', label: 'Department Name', type: 'text' },
     { key: 'description', label: 'Description', type: 'text' }
   ];
@@ -26,40 +26,40 @@ export class DepartmentsComponent implements OnInit   {
   ngOnInit(): void {
     this.loadDepartments();
   }
-   loadDepartments(): void {
+  loadDepartments(): void {
     this.departmentService.getAll().subscribe(data => {
       this.departments = data;
-    }); 
-}
- createDepartment(): void {
+    });
+  }
+  createDepartment(): void {
     this.mode = 'create';
     this.selectedDepartment = {};
     this.showDrawer = true;
   }
-editClientShowDrawer(client: any): void {
+  editClientShowDrawer(client: any): void {
     this.mode = 'update';
     this.selectedDepartment = { ...client };
     this.showDrawer = true;
   }
-updateDepartment(department: Department): void {
-  this.departmentService
-    .update(department, `/UpdateDepartment`)
-    .subscribe(() => {
-      this.loadDepartments();
-      this.showDrawer = false;
-    });
-}
- saveDepartment(department: DepartmentDto): void {
-    this.departmentService.create(department,'/CreateDepartment').subscribe(newClient => {
+  updateDepartment(department: Department): void {
+    this.departmentService
+      .update(department)
+      .subscribe(() => {
+        this.loadDepartments();
+        this.showDrawer = false;
+      });
+  }
+  saveDepartment(department: DepartmentDto): void {
+    this.departmentService.create(department, '/create').subscribe(newClient => {
       this.departments.push(newClient);
       this.showDrawer = false;
     });
     this.showDrawer = false;
   }
-deleteDepartment(department: any): void {
-  this.departmentService.delete(`DeleteDepartment?id=${department.id}`).subscribe(() => {
-    this.departments = this.departments.filter(c => c.id !== department.id);
-    this.showDrawer = false;
-  });
-}
+  deleteDepartment(department: any): void {
+    this.departmentService.delete(`DeleteDepartment?id=${department.id}`).subscribe(() => {
+      this.departments = this.departments.filter(c => c.id !== department.id);
+      this.showDrawer = false;
+    });
+  }
 }
