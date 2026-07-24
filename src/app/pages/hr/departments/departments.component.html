@@ -3,6 +3,7 @@
   <!-- GENERIC TABLE -->
   <app-generic-table
     [data]="departments"
+      [showCreate]="true" 
     [columns]="departmentFields"
     [pageSize]="10"
     (rowClick)="editClientShowDrawer($event)"

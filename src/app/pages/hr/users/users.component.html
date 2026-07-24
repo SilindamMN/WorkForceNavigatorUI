@@ -2,6 +2,7 @@
   <app-generic-table
     [data]="users"
     [columns]="userColumns"
+      [showCreate]="true" 
     [pageSize]="10"
     (rowClick)="editUserShowDrawer($event)"
     (create)="createUser()">

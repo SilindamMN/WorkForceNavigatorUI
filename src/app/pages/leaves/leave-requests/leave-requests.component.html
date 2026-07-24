@@ -3,6 +3,7 @@
   <!-- GENERIC TABLE -->
   <app-generic-table
     [data]="leaveRequests"
+      [showCreate]="true" 
     [columns]="leaveRequestColumns"
     [pageSize]="10"
     (rowClick)="editRequestShowDrawer($event)"
