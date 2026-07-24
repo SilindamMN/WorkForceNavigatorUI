@@ -12,7 +12,6 @@ import { JobTitlesComponent } from './pages/hr/jobtitles/jobtitles.component';
 import { ProjectsComponent } from './pages/work/projects/projects.component';
 import { LeaveAllocationsComponent } from './pages/leaves/leave-allocations/leave-allocations.component';
 import { TimesheetsComponent } from './pages/work/timesheets/timesheets.component';
-import { TasksComponent } from './pages/work/tasks/tasks.component';
 import { LeaveRequestsComponent } from './pages/leaves/leave-requests/leave-requests.component';
 
 export const routes: Routes = [
@@ -33,7 +32,6 @@ export const routes: Routes = [
        { path: 'hr/departments', component: DepartmentsComponent },
        { path: 'work/projects', component: ProjectsComponent },
        { path: 'work/timesheets', component: TimesheetsComponent },
-       { path: 'work/tasks', component: TasksComponent },
        { path: 'leaves/leave-allocations', component: LeaveAllocationsComponent },
        { path: 'leaves/leave-requests', component: LeaveRequestsComponent },
        { path: 'hr/departments', component: DepartmentsComponent },

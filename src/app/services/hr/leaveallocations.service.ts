@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class LeaveAllocationsService extends GenericCrudService<LeaveAllocation> {
   constructor(http: HttpClient) {
-    super(http, 'LeaveAllocation/');
+    super(http, 'leave-allocations/');
   }
   getLeaveAllocationsByUsername(username: string): Observable<LeaveAllocationDto[]> {
     return this.http.get<LeaveAllocationDto[]>(

@@ -8,7 +8,7 @@ import { Seniority } from '../../models/enums/seniority';
 @Injectable({ providedIn: 'root' })
 export class JobTitleService extends GenericCrudService<JobTitle & { id: string | number }> {
   constructor(http: HttpClient) {
-    super(http, 'JobTitle');
+    super(http, 'jobtitles');
   } 
   getJobTitleByDepartmentId(departmentId: number, seniority :Seniority): Observable<JobTitle[]> {
     return this.http.get<JobTitle[]>(

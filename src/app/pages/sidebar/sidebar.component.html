@@ -33,7 +33,6 @@
           
          <button type="button" class="item" [class.active]="activeLink === 'Departments'" routerLink="/hr/departments" (click)="setActive('Departments')"><i class="sitemap icon"></i> Departments</button>
 
-<button type="button" class="item" [class.active]="activeLink === 'Managers'" routerLink="/hr/managers" (click)="setActive('Managers')"><i class="user tie icon"></i> Managers</button>
 
 <button type="button" class="item" [class.active]="activeLink === 'Job Titles'" routerLink="/hr/jobtitles" (click)="setActive('Job Titles')"><i class="tag icon"></i> Job Titles</button>
 
@@ -66,7 +65,6 @@
         <div class="submenu">
           
           <button type="button" class="item" [class.active]="activeLink === 'Projects'"  routerLink="/work/projects" (click)="setActive('Projects')"><i class="briefcase icon"></i> Projects</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Tasks'" routerLink="/work/tasks" (click)="setActive('Tasks')"><i class="tasks icon"></i> Tasks</button>
           <button type="button" class="item" [class.active]="activeLink === 'Timesheets'" routerLink="/work/timesheets" (click)="setActive('Timesheets')"><i class="clock icon"></i> Timesheets</button>
         </div>
       </div>
