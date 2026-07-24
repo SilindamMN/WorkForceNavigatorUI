@@ -3,6 +3,7 @@
   <!-- GENERIC TABLE -->
   <app-generic-table
     [data]="projects"
+      [showCreate]="true" 
     [columns]="projectColumns"
     [pageSize]="10"
     (rowClick)="editProjectShowDrawer($event)"

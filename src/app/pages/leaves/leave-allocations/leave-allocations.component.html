@@ -3,6 +3,7 @@
   <!-- GENERIC TABLE -->
   <app-generic-table
     [data]="leaveAllocations"
+      [showCreate]="true" 
     [columns]="leaveAllocationColumns"
     [pageSize]="10"
     (rowClick)="editLeaveAllocationShowDrawer($event)"

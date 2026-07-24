@@ -4,6 +4,7 @@
   <app-generic-table
     [data]="clients"
     [columns]="clientColumns"
+      [showCreate]="true" 
     [pageSize]="10"
     (rowClick)="editClient($event)"
     (create)="createClient()">
