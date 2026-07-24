@@ -2,21 +2,14 @@
 
   <table class="ui very basic compact table">
     <thead>
-     <tr> <button
-            *ngIf="showCreate"
-            type="button"
-            class="ui primary button"
-            (click)="onCreate()">
-            + Create
-          </button>
-       <button
-      *ngFor="let button of optionalButtons"
-      type="button"
-      class="ui button"
-      (click)="onOptionalButtonClick(button)">
-      {{ button.label }}
-    </button>
-     </tr>
+      <tr> <button *ngIf="showCreate" type="button" class="ui primary button" (click)="onCreate()">
+          + Create
+        </button>
+        <button *ngFor="let button of optionalButtons" type="button" class="ui button"
+          (click)="onOptionalButtonClick(button)">
+          {{ button.label }}
+        </button>
+      </tr>
       <tr>
         <th *ngFor="let col of columns">
           {{ col.label }}
@@ -25,14 +18,15 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let row of pagedData"
-          (click)="onRowClick(row)">
+      <tr *ngFor="let row of pagedData" (click)="onRowClick(row)">
         <td *ngFor="let col of columns">
           {{ row[col.key] }}
         </td>
       </tr>
-    </tbody>
-
+    </tbody><div class="pagination" *ngIf="totalPages > 1">
+    <button type="button" class="ui button" [disabled]="page === 1" (click)="changePage(page - 1)">Prev</button>
+    <button *ngFor="let p of pages" type="button" class="ui button" [class.active]="p === page" (click)="changePage(p)">{{ p }}</button>
+    <button type="button" class="ui button" [disabled]="page === totalPages" (click)="changePage(page + 1)">Next</button>
+  </div>
   </table>
-
 </div>
