@@ -20,22 +20,31 @@ export const routes: Routes = [
 
   {
     path: '',
-    component: LayoutComponent,
-    canActivate: [AuthGuard],
-    children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent },
-       { path: 'hr/clients', component: ClientsComponent },
-       { path: 'hr/users', component: UsersComponent },
-       { path: 'hr/teams', component: TeamsComponent },
-       { path: 'hr/jobtitles', component: JobTitlesComponent },
-       { path: 'hr/departments', component: DepartmentsComponent },
-       { path: 'work/projects', component: ProjectsComponent },
-       { path: 'work/timesheets', component: TimesheetsComponent },
-       { path: 'leaves/leave-allocations', component: LeaveAllocationsComponent },
-       { path: 'leaves/leave-requests', component: LeaveRequestsComponent },
-       { path: 'hr/departments', component: DepartmentsComponent },
-    ]
+  component: LayoutComponent,
+  canActivate: [AuthGuard],
+  children: [
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
+    { path: 'dashboard', component: DashboardComponent },
+
+    {
+      path: 'hr',
+      canActivate: [AuthGuard],
+      data: { role: 'ADMIN' },
+      children: [
+        { path: 'clients', component: ClientsComponent },
+        { path: 'users', component: UsersComponent },
+        { path: 'teams', component: TeamsComponent },
+        { path: 'jobtitles', component: JobTitlesComponent },
+        { path: 'departments', component: DepartmentsComponent },
+      ]
+    },
+
+    { path: 'work/projects', component: ProjectsComponent },
+    { path: 'work/timesheets', component: TimesheetsComponent },
+    { path: 'leaves/leave-allocations', component: LeaveAllocationsComponent },
+    { path: 'leaves/leave-requests', component: LeaveRequestsComponent },
+  ]
   },
 
   { path: '**', redirectTo: 'login' }

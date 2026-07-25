@@ -3,24 +3,18 @@
   <div class="ui vertical borderless fluid text menu">
 
     <!-- DASHBOARD -->
-    <button type="button"
-            class="item"
-            [class.active]="activeLink === 'Dashboard'"
-            (click)="setActive('Dashboard')">
+    <button type="button" class="item" [class.active]="activeLink === 'Dashboard'" (click)="setActive('Dashboard')">
       <i class="home icon"></i>
       Dashboard
     </button>
 
     <div class="divider"></div>
-
+  
     <!-- ================= HR ================= -->
-    <div class="group">
+    <div class="group" >
 
-      <button type="button"
-              class="group-title"
-              [class.open]="toggleHR"
-              [attr.aria-expanded]="toggleHR"
-              (click)="toggleHR = !toggleHR">
+      <button type="button" class="group-title" [class.open]="toggleHR" [attr.aria-expanded]="toggleHR"
+        (click)="toggleHR = !toggleHR">
         <div class="left">
           <i class="users icon"></i>
           <span>HR</span>
@@ -30,17 +24,23 @@
 
       <div class="submenu-wrapper" [class.open]="toggleHR">
         <div class="submenu">
-          
-         <button type="button" class="item" [class.active]="activeLink === 'Departments'" routerLink="/hr/departments" (click)="setActive('Departments')"><i class="sitemap icon"></i> Departments</button>
+
+          <button  *ngIf="roles.includes('ADMIN')" type="button" class="item" [class.active]="activeLink === 'Departments'" routerLink="/hr/departments"
+            (click)="setActive('Departments')"><i class="sitemap icon"></i> Departments</button>
 
 
-<button type="button" class="item" [class.active]="activeLink === 'Job Titles'" routerLink="/hr/jobtitles" (click)="setActive('Job Titles')"><i class="tag icon"></i> Job Titles</button>
+          <button  *ngIf="roles.includes('ADMIN')" type="button" class="item" [class.active]="activeLink === 'Job Titles'" routerLink="/hr/jobtitles"
+            (click)="setActive('Job Titles')"><i class="tag icon"></i> Job Titles</button>
 
-<button type="button" class="item" [class.active]="activeLink === 'Teams'" routerLink="/hr/teams" (click)="setActive('Teams')"><i class="users icon"></i> Teams</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Teams'" routerLink="/hr/teams"
+            (click)="setActive('Teams')"><i class="users icon"></i> Teams</button>
 
-<button type="button" class="item" [class.active]="activeLink === 'Users'" routerLink="/hr/users" (click)="setActive('Users')"><i class="user icon"></i> Users</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Users'" routerLink="/hr/users"
+            (click)="setActive('Users')"><i class="user icon"></i> Users</button>
 
-<button type="button" class="item" [class.active]="activeLink === 'Clients'" routerLink="/hr/clients" (click)="setActive('Clients')"><i class="user tie icon"></i> Clients</button> </div>
+          <button  *ngIf="roles.includes('ADMIN')" type="button" class="item" [class.active]="activeLink === 'Clients'" routerLink="/hr/clients"
+            (click)="setActive('Clients')"><i class="user tie icon"></i> Clients</button>
+        </div>
       </div>
     </div>
 
@@ -49,11 +49,8 @@
     <!-- ================= WORK ================= -->
     <div class="group">
 
-      <button type="button"
-              class="group-title"
-              [class.open]="toggleWork"
-              [attr.aria-expanded]="toggleWork"
-              (click)="toggleWork = !toggleWork">
+      <button type="button" class="group-title" [class.open]="toggleWork" [attr.aria-expanded]="toggleWork"
+        (click)="toggleWork = !toggleWork">
         <div class="left">
           <i class="folder open icon"></i>
           <span>Work</span>
@@ -63,9 +60,11 @@
 
       <div class="submenu-wrapper" [class.open]="toggleWork">
         <div class="submenu">
-          
-          <button type="button" class="item" [class.active]="activeLink === 'Projects'"  routerLink="/work/projects" (click)="setActive('Projects')"><i class="briefcase icon"></i> Projects</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Timesheets'" routerLink="/work/timesheets" (click)="setActive('Timesheets')"><i class="clock icon"></i> Timesheets</button>
+
+          <button type="button" class="item" [class.active]="activeLink === 'Projects'" routerLink="/work/projects"
+            (click)="setActive('Projects')"><i class="briefcase icon"></i> Projects</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Timesheets'" routerLink="/work/timesheets"
+            (click)="setActive('Timesheets')"><i class="clock icon"></i> Timesheets</button>
         </div>
       </div>
     </div>
@@ -75,11 +74,8 @@
     <!-- ================= LEAVES ================= -->
     <div class="group">
 
-      <button type="button"
-              class="group-title"
-              [class.open]="toggleLeaves"
-              [attr.aria-expanded]="toggleLeaves"
-              (click)="toggleLeaves = !toggleLeaves">
+      <button type="button" class="group-title" [class.open]="toggleLeaves" [attr.aria-expanded]="toggleLeaves"
+        (click)="toggleLeaves = !toggleLeaves">
         <div class="left">
           <i class="calendar alternate icon"></i>
           <span>Leaves</span>
@@ -89,22 +85,23 @@
 
       <div class="submenu-wrapper" [class.open]="toggleLeaves">
         <div class="submenu">
-                      <button type="button" class="item" [class.active]="activeLink === 'leave-Allocations'"  routerLink="/leaves/leave-allocations" (click)="setActive('Leave Allocations')"><i class="calendar check icon"></i>Leave Allocations</button>
-          <button type="button" class="item" [class.active]="activeLink === 'leave-requests'" routerLink="/leaves/leave-requests" (click)="setActive('Leave Requests')"><i class="paper plane icon"></i> Leave Requests</button>
-  </div>
+          <button type="button" class="item" [class.active]="activeLink === 'leave-Allocations'"
+            routerLink="/leaves/leave-allocations" (click)="setActive('Leave Allocations')"><i
+              class="calendar check icon"></i>Leave Allocations</button>
+          <button type="button" class="item" [class.active]="activeLink === 'leave-requests'"
+            routerLink="/leaves/leave-requests" (click)="setActive('Leave Requests')"><i class="paper plane icon"></i>
+            Leave Requests</button>
+        </div>
       </div>
     </div>
 
     <div class="divider"></div>
 
     <!-- ================= SYSTEM ================= -->
-    <div class="group">
+    <div class="group"  *ngIf="roles.includes('ADMIN')">
 
-      <button type="button"
-              class="group-title"
-              [class.open]="toggleSystem"
-              [attr.aria-expanded]="toggleSystem"
-              (click)="toggleSystem = !toggleSystem">
+      <button type="button" class="group-title" [class.open]="toggleSystem" [attr.aria-expanded]="toggleSystem"
+        (click)="toggleSystem = !toggleSystem">
         <div class="left">
           <i class="cogs icon"></i>
           <span>System</span>
@@ -114,8 +111,10 @@
 
       <div class="submenu-wrapper" [class.open]="toggleSystem">
         <div class="submenu">
-          <button type="button" class="item" [class.active]="activeLink === 'Messages'" (click)="setActive('Messages')"><i class="envelope icon"></i> Messages</button>
-          <button type="button" class="item" [class.active]="activeLink === 'Logs'" (click)="setActive('Logs')"><i class="clipboard list icon"></i> Logs</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Messages'"
+            (click)="setActive('Messages')"><i class="envelope icon"></i> Messages</button>
+          <button type="button" class="item" [class.active]="activeLink === 'Logs'" (click)="setActive('Logs')"><i
+              class="clipboard list icon"></i> Logs</button>
         </div>
       </div>
     </div>

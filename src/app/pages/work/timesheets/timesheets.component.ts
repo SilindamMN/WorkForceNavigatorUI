@@ -37,8 +37,6 @@ weekOffSet = 0;
     this.getUserProjectByUserName(this.username);
   }
 
-
-
   // ================= FORM CONFIG =================
 
  timesheetFields: FormField[] = [
