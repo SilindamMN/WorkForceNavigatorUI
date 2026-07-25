@@ -57,7 +57,7 @@ export class DepartmentsComponent implements OnInit {
     this.showDrawer = false;
   }
   deleteDepartment(department: any): void {
-    this.departmentService.delete(`DeleteDepartment?id=${department.id}`).subscribe(() => {
+    this.departmentService.delete(department.id).subscribe(() => {
       this.departments = this.departments.filter(c => c.id !== department.id);
       this.showDrawer = false;
     });
