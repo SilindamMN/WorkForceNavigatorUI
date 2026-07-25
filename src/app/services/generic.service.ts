@@ -59,8 +59,9 @@ export class GenericCrudService<
 }
 
   // Delete entity by id, optionally with an action path before the id
-  delete(id: number | string, action?: string): Observable<any> {
-    const url = action ? `${this.baseUrl}${action}` : `${this.baseUrl}/${id}`;
-    return this.http.delete<any>(url);
-  }
+  // Delete entity by id, optionally with an action path before the id
+delete(id: number | string, action?: string): Observable<any> {
+  const url = action ? `${this.baseUrl}/${action}/${id}` : `${this.baseUrl}/${id}`;
+  return this.http.delete<any>(url);
+}
 }
