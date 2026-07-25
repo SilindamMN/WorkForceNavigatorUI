@@ -3,6 +3,7 @@
   <!-- GENERIC TABLE -->
   <app-generic-table
     [data]="jobTitles"
+      [showCreate]="true" 
     [columns]="jobTitleColumns"
     [pageSize]="10"
     (rowClick)="editJobTitleShowDrawer($event)"
@@ -20,5 +21,7 @@
   [model]="selectedJobTitle"
   (saved)="updateJobTitle($event)"
   (deleted)="deleteJobTitle($event)"
+  (saved)="saveJobTitle($event)"
+  (updated)="updateJobTitle($event)"
   (closed)="showDrawer = false">
 </app-drawer-form>

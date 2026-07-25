@@ -26,7 +26,7 @@ export class GenericCrudService<
   }
 
   // Create entity, optionally with an action path
-  create(entity: T, action?: string): Observable<T> {
+  create(entity: T, action?: any): Observable<T> {
     const url = action ? `${this.baseUrl}${action}` : this.baseUrl;
     return this.http.post<T>(url, entity);
   }
@@ -39,7 +39,7 @@ export class GenericCrudService<
     const url = action
       ? `${this.baseUrl}${action}/${entity.id}`
       : `${this.baseUrl}/${entity.id}`;
-    return this.http.put<T>(url, entity);
+    return this.http.patch<T>(url, entity);
   } // Update entity, requires id, optionally with an action path before the id
  updateByKey<T>(
   entity: T,
