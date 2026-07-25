@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
-
+roles: string[] = JSON.parse(localStorage.getItem('userInfo') || '{}').roles || [];
   toggleHR = false;
   toggleWork = false;
   toggleLeaves = false;
@@ -20,5 +20,6 @@ export class SidebarComponent {
 
   setActive(label: string) {
     this.activeLink = label;
+    console.log("check here "+this.roles)
   }
 }

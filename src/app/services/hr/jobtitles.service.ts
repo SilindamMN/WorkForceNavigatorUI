@@ -9,18 +9,18 @@ import { Seniority } from '../../models/enums/seniority';
 export class JobTitleService extends GenericCrudService<JobTitle & { id: string | number }> {
   constructor(http: HttpClient) {
     super(http, 'jobtitles');
-  } 
-  getJobTitleByDepartmentId(departmentId: number, seniority :Seniority): Observable<JobTitle[]> {
+  }
+  getJobTitleByDepartmentId(departmentId: number, seniority: Seniority): Observable<JobTitle[]> {
     return this.http.get<JobTitle[]>(
       `${this.baseUrl}/Department/${departmentId}?seniority=${seniority}`
     );
   }
 
-  AssignJobTitleToUser( username: string,jobTitleId: number): Observable<void> {
+  AssignJobTitleToUser(username: string, jobTitleId: number): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/AssignJobTitle`, { username, jobTitleId });
   }
 
- CreateJobTitle(jobTitle: JobTitleDto): Observable<JobTitle> {
-  return this.http.post<JobTitle>(`${this.baseUrl}/create`, jobTitle);
-}
+  CreateJobTitle(jobTitle: JobTitleDto): Observable<JobTitle> {
+    return this.http.post<JobTitle>(`${this.baseUrl}/create`, jobTitle);
+  }
 }
