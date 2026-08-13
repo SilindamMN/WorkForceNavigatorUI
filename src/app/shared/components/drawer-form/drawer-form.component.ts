@@ -16,6 +16,8 @@ export class DrawerFormComponent implements OnChanges {
   @Input() title = '';
   @Input() fields: any[] = [];
   @Input() model: any = {};
+  @Input() hideUpdate = false;
+  @Input() hideDelete = false;
   @Input() customButtons: {
   label: string;
   action: string;
@@ -96,7 +98,7 @@ private normalizeDates(data: any): any {
   }
 
   save(): void { this.saved.emit(this.formData); }
-  update(): void { this.updated.emit(this.formData); }
+  update(): void { this.updated.emit(this.formData); console.log('Updated data:', this.formData); }
   delete(): void { this.deleted.emit(this.formData); }
   close(): void { this.closed.emit(); }
 }

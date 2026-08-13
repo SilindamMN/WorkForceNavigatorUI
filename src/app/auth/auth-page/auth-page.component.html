@@ -1,57 +1,39 @@
 <div class="auth-container">
-
   <div class="auth-card">
-
     <!-- LOGIN -->
     <div *ngIf="isLogin" class="p-4">
-
       <h4 class="text-center mb-4">Welcome Back</h4>
-
       <input type="text" class="form-control mb-3" placeholder="Username" [(ngModel)]="loginUser.username" name="username" />
-
       <input type="password" class="form-control mb-3" placeholder="Password" [(ngModel)]="loginUser.password" name="password" />
-
       <button class="btn btn-primary w-100 mb-3" (click)="LoginUser()">
         Sign in
       </button>
-
       <p class="text-center small">
         Don’t have an account?
         <a href="#" (click)="switchToRegister(); $event.preventDefault()">
           Register
         </a>
       </p>
-
     </div>
 
     <!-- REGISTER -->
     <div *ngIf="!isLogin" class="p-4">
 
       <h4 class="text-center mb-4">Create Account</h4>
-
       <input type="text" class="form-control mb-3" placeholder="Username" [(ngModel)]="registerUser.username" name="username" />
-
       <input type="text" class="form-control mb-3" placeholder="First Name" [(ngModel)]="registerUser.firstName" name="firstName" />
-
       <input type="text" class="form-control mb-3" placeholder="Last Name" [(ngModel)]="registerUser.lastName" name="lastName" />
-
       <input type="email" class="form-control mb-3" placeholder="Email address" [(ngModel)]="registerUser.email" name="email" />
-
       <input type="password" class="form-control mb-3" placeholder="Password" [(ngModel)]="registerUser.password" name="password" />
-
-      <button class="btn btn-success w-100 mb-3" (click)="RegisterUser()">
+      <button class="btn btn-primary w-100 mb-3" (click)="RegisterUser()">
         Create account
       </button>
-
       <p class="text-center small">
         Already have an account?
         <a href="#" (click)="switchToLogin(); $event.preventDefault()">
           Login
         </a>
       </p>
-
     </div>
-
   </div>
-
 </div>

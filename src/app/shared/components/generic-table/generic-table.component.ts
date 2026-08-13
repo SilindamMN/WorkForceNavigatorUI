@@ -23,6 +23,7 @@ export class GenericTableComponent {
   @Input() optionalButtons: OptionalButton[] = [];
 
   @Output() create = new EventEmitter<void>();
+  @Output() update = new EventEmitter<any>();
   @Output() rowClick = new EventEmitter<any>();
   @Output() optionalButtonClick = new EventEmitter<OptionalButton>();
 
@@ -49,6 +50,11 @@ export class GenericTableComponent {
   onCreate(): void {
     this.create.emit();
   }
+
+onUpdate(row: any): void {
+    this.update.emit(row);
+  }
+
 
   onRowClick(row: any): void {
     this.rowClick.emit(row);

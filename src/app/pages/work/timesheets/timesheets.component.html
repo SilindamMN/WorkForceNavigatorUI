@@ -2,30 +2,18 @@
 
   <div class="clients-wrapper">
 
-    <app-generic-table
-      [data]="timesheets"
-      [showCreate]="true" 
-       (create)="createTimesheet()"
-      [columns]="timesheetColumns"
+    <app-generic-table [data]="timesheets" [showCreate]="true" (create)="createTimesheet()" [columns]="timesheetColumns"
       [optionalButtons]="[
         { label: '← Back', action: 'back' },
         { label: '→ Forward', action: 'forward' }
-      ]"
-      (optionalButtonClick)="handleButton($event)"
-      (rowClick)="editTimesheetShowDrawer($event.date.toString().split('T')[0])"
-      >
+      ]" (optionalButtonClick)="handleButton($event)"
+      (rowClick)="editTimesheetShowDrawer($event.date.toString().split('T')[0])">
     </app-generic-table>
 
   </div>
-
-<app-drawer-form
-  [isOpen]="showDrawer"
-  [mode]="mode"
-  [title]="'Timesheet'"
-[fields]="mode === 'create' ? timesheetCreateFields : timesheetFields"  [model]="selectedTimesheet"
-  (saved)="saveDepartment($event)"
-  (closed)="showDrawer = false">
-
+<app-drawer-form [isOpen]="showDrawer" [mode]="mode" [title]="'Timesheet'"
+  [fields]="mode === 'create' ? timesheetCreateFields : timesheetFields" [model]="selectedTimesheet"
+  [hideUpdate]="true"
+  [hideDelete]="true"
+  (updated)="updateTimesheet($event)" (saved)="saveDepartment($event)" (closed)="showDrawer = false">
 </app-drawer-form>
-
-</div>

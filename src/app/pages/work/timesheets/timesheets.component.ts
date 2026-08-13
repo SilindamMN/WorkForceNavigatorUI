@@ -79,7 +79,8 @@ editTimesheetShowDrawer(day: any): void {
     if (data.length > 0) {
       this.mode = 'update';
       this.selectedTimesheet = data || [];
-    } else {
+    } 
+    else {
       this.mode = 'create';
       this.selectedTimesheet = { timesheetDate: day } as Timesheet;
     }
@@ -87,12 +88,6 @@ editTimesheetShowDrawer(day: any): void {
   });
 }
 
-  updateTimesheet(timesheet: Timesheet): void {
-    this.timesheetsService.update(timesheet).subscribe(() => {
-      this.loadTimesheets();
-      this.showDrawer = false;
-    });
-  }
 
 loadTimesheets(): void {
   this.timesheetsService
@@ -133,6 +128,14 @@ getTimesheetDetails(timesheetDate: string): void {
 
   saveDepartment(timesheet: any): void {
   this.timesheetsService.create(timesheet,"create").subscribe(() => {
+      console.log('Timesheet updated successfully '+timesheet);
+    this.loadTimesheets();
+    this.showDrawer = false;
+  });
+}
+updateTimesheet(timesheet: any): void {
+  const entity = Array.isArray(timesheet) ? timesheet[0] : timesheet;
+  this.timesheetsService.update(entity).subscribe(() => {
     this.loadTimesheets();
     this.showDrawer = false;
   });

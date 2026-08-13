@@ -33,14 +33,15 @@ export class GenericCrudService<
 
   // Update entity, requires id, optionally with an action path before the id
   update(entity: T, action?: string): Observable<T> {
-    if (!entity.id) {
-      throw new Error('Entity must have an ID for update operation.');
-    }
-    const url = action
-      ? `${this.baseUrl}${action}/${entity.id}`
-      : `${this.baseUrl}/${entity.id}`;
-    return this.http.patch<T>(url, entity);
-  } // Update entity, requires id, optionally with an action path before the id
+  if (!entity.id) {
+    throw new Error('Entity must have an ID for update operation.');
+  }
+  const base = this.baseUrl.endsWith('/') ? this.baseUrl.slice(0, -1) : this.baseUrl;
+  const url = action
+    ? `${base}${action}/${entity.id}`
+    : `${base}/${entity.id}`;
+  return this.http.patch<T>(url, entity);
+} // Update entity, requires id, optionally with an action path before the id
  updateByKey<T>(
   entity: T,
   key: string,
