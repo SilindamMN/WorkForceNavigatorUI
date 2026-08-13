@@ -43,6 +43,7 @@ teamFields: FormField[] = [
   loadTeams(): void {
     this.teamsService.getAll().subscribe(data => {
       this.teams = data;
+    console.log("faka a"+'teams data:', data);
     });
   }
    createJobTitle(): void {
