@@ -73,8 +73,8 @@
     <div class="action-bar">
       <button *ngIf="mode === 'create'" class="save-btn" (click)="save()">Save</button>
       <ng-container *ngIf="mode === 'update'">
-        <button class="delete-btn" (click)="delete()">Delete</button>
-        <button class="update-btn" (click)="update()">Update</button>
+        <button *ngIf="!hideDelete" class="delete-btn" (click)="delete()">Delete</button>
+        <button  *ngIf="!hideUpdate" class="update-btn" (click)="update()">Update</button>
       </ng-container>
       <button
         *ngFor="let btn of customButtons"
