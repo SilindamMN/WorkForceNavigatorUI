@@ -11,7 +11,7 @@ export class LeaveAllocationsService extends GenericCrudService<LeaveAllocation>
   }
   getLeaveAllocationsByUsername(username: string): Observable<LeaveAllocationDto[]> {
     return this.http.get<LeaveAllocationDto[]>(
-      `${this.baseUrl}LeaveAllocationByUsereName?userName=${username}`
+      `${this.baseUrl}username?userName=${username}`
     );
   }
 }

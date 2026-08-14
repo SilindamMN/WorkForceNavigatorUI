@@ -14,9 +14,9 @@ export class LeaverequestService extends GenericCrudService<LeaveRequest,LeaveRe
 processLeaveRequest(
   leaveRequestId: number,
   status: LeaveStatus
-): Observable<  LeaveRequestDto> {
+): Observable<LeaveRequestDto> {
   return this.http.post<LeaveRequestDto>(
-    `${this.baseUrl}ProcessLeaveRequest?leaveRequestId=${leaveRequestId}&status=${status}`,
+    `${this.baseUrl}/process?leaveRequestId=${leaveRequestId}&status=${status}`,
     null
   );
 }
@@ -25,12 +25,12 @@ updateLeaveRequest(
   leaveRequestId: number,
   leaveRequest: UpdateLeaveRequestDto
 ) {
-  return this.http.put(
-    `${this.baseUrl}UpdateLeaveRequest?leaveRequestId=${leaveRequestId}`,
+  return this.http.patch(
+    `${this.baseUrl}/${leaveRequestId}`,
     leaveRequest
   );
 }
 createLeaveRequest(leaveRequest: CreateLeaveRequestDto): Observable<CreateLeaveRequestDto> {
-  return this.http.post<CreateLeaveRequestDto>(`${this.baseUrl}Create`, leaveRequest);
+  return this.http.post<CreateLeaveRequestDto>(`${this.baseUrl}/create`, leaveRequest);
 }
 }
