@@ -50,7 +50,19 @@ table thead {
   background: #f8fafc;
   border-bottom: 2px solid #e2e8f0;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  table-layout: fixed;
+}
 
+table thead th,
+table tbody td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 table thead th {
   padding: 0.75rem 1rem;
   text-align: left;

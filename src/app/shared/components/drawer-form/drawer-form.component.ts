@@ -46,9 +46,7 @@ onCustomButtonClick(action: string): void {
 
 ngOnChanges(changes: SimpleChanges): void {
   if (changes['model'] || (changes['isOpen'] && this.isOpen)) {
-
     this.isMultiple = Array.isArray(this.model);
-
     this.formData = this.isMultiple
       ? this.model.map((m: any) => this.normalizeDates({ ...m }))
       : this.normalizeDates({ ...this.model });
