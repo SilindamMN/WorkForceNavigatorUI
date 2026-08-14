@@ -9,10 +9,19 @@ export class UsersService extends GenericCrudService<User> {
   constructor(http: HttpClient) {
     super(http, 'users');
   }
- updateUserDetails(username: string, departmentId: number, dto: UpdateUserDetailsDto): Observable<UpdateUserDetailsDto> {
-  return this.http.put<UpdateUserDetailsDto>(
-    `${this.baseUrl}update?updateUsername=${username}&departmentId=${departmentId}`,
+updateUserDetails(
+  username: string,
+  departmentId: number,
+  userId: string,
+  dto: UpdateUserDetailsDto
+): Observable<UpdateUserDetailsDto> {
+  return this.http.patch<UpdateUserDetailsDto>(
+    `${this.baseUrl}/${userId}?updateUsername=${username}&departmentId=${departmentId}`,
     dto
   );
+}
+getUserByUsername(username: string): Observable<User> {
+  const authUrl = this.baseUrl.replace('users', 'auth');
+  return this.http.get<User>(`${authUrl}/${username}`);
 }
 }

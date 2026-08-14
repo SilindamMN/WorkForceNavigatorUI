@@ -50,7 +50,7 @@ export class UsersComponent implements OnInit {
 
     if (event.value) {
       this.getJobTitleByDepartmentId(event.value, this.selectedUser?.seniority as Seniority);
-      this.getUserTeamByDepartmentId(event.value);
+      this.getUserTeamByUserId(this.selectedUser?.id);
     } else {
       this.clearJobTitleOptions();
     }
@@ -90,8 +90,7 @@ export class UsersComponent implements OnInit {
   { key: 'seniority', label: 'Seniority', type: 'dropdown', options: [...SeniorityOptions] },
   { key: 'departmentId', label: 'Department', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'departmentName' },
 { key: 'jobTitleId', label: 'JobTitle', type: 'dropdown', options: [], optionValue: 'jobTitleId', optionLabel: 'title' },  
-{ key: 'teamId', label: 'Team', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'teamName' },
-  { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] }
+{ key: 'teamId', label: 'Team', type: 'dropdown', options: [], optionValue: 'teamName', optionLabel: 'teamName' },  { key: 'gender', label: 'Gender', type: 'dropdown', options: [...GenderOptions] }
 ];
 
   createUser(): void {
@@ -101,34 +100,26 @@ export class UsersComponent implements OnInit {
     this.showDrawer = true;
   }
 
-  editUserShowDrawer(user: any): void {
-    this.showDrawer = true;
-    this.mode = 'update';
-    this.selectedUser = { ...user };  
-    console.log('selectedUser jobTitleId:', this.selectedUser.jobTitleId); 
-    if (user.departmentId) {
-      this.getUserTeamByDepartmentId(user.departmentId);
-       this.getJobTitleByDepartmentId(user.departmentId, user.seniority as Seniority);
-    }
-  }
-
+ editUserShowDrawer(user: any): void {
+  this.mode = 'update';
+  this.getUserByUsername(user.username);
+}
  UpdateUser(user: UserDto): void {
   const u = user as any;
   u.departmentName = this.departments.find(d => d.id === u.departmentId)?.departmentName ?? u.departmentName;
   u.teamName = this.userTeams.find((t: any) => t.id === u.teamId)?.teamName ?? u.teamName;
   u.jobTitleName = this.jobTitles.find((j: any) => j.id === u.jobTitleId)?.title ?? u.jobTitleName;
 
-   const dto: UpdateUserDetailsDto = {
-    firstName: u.firstName,
-    lastName: u.lastName,
-    gender: u.gender,
-    jobTitleId: u.jobTitleId,
-    teamId: u.teamId,
-    seniority: u.seniority,
-    salary: u.salary,
-    phonenumber: u.phoneNumber
-  };
-    this.usersService.updateUserDetails(u.username, u.departmentId, dto)
+  const dto: UpdateUserDetailsDto = {
+  firstName: u.firstName,
+  lastName: u.lastName,
+  gender: u.gender,
+  jobTitleId: u.jobTitleId,
+  seniority: u.seniority,
+  salary: u.salary,
+  phonenumber: u.phoneNumber
+};
+    this.usersService.updateUserDetails(u.username, u.departmentId, u.id, dto)
     .subscribe(() => {
       this.loadUsers();
       this.showDrawer = false;
@@ -145,19 +136,19 @@ loadDepartments(): void {
     this.departments = data;
     const field = this.userFields.find(f => f.key === 'departmentId');
     if (field) {
-      field.options = data; // raw Department[] objects now — no manual mapping
+      field.options = data; 
     }
   });
 }
 
-getUserTeamByDepartmentId(departmentId: number): void {
-  this.teamsService.getUserTeamByDepartmentId(departmentId)
-    .subscribe(data =>{
-    this.userTeams = data;
-    const field = this.userFields.find(f => f.key === 'teamId');
-    if (field) {
-      field.options = data; 
-    } });
+getUserTeamByUserId(userId: number): void {
+  this.teamsService.getUserTeamByUserId(userId)
+    .subscribe(data => {
+      this.userTeams = data;
+      this.userFields = this.userFields.map(f =>
+        f.key === 'teamId' ? { ...f, options: data } : f
+      );
+    });
 }
 
 getJobTitleByDepartmentId(departmentId: number, seniority: Seniority): void {
@@ -203,5 +194,21 @@ AssignJobTitleToUser(username: string, jobTitleId: number): void {
         alert(error?.error?.message || 'Failed to add member to team.');
       }
     });
+}
+getUserByUsername(username: string): void {
+  this.usersService.getUserByUsername(username).subscribe({
+    next: (user) => {
+      this.selectedUser = user;
+      this.showDrawer = true;
+      const u = user as any;
+      if (u.departmentId) {
+        this.getUserTeamByUserId(user.id);
+        this.getJobTitleByDepartmentId(u.departmentId, u.seniority as Seniority);
+      }
+    },
+    error: (error) => {
+      alert(error?.error?.message || 'Failed to fetch user details.');
+    }
+  });
 }
 }

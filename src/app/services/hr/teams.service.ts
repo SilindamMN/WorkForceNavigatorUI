@@ -9,9 +9,9 @@ export class TeamsService extends GenericCrudService<Team> {
   constructor(http: HttpClient) {
     super(http, 'teams');
   }
-    getUserTeamByDepartmentId(departmentId: number): Observable<UserTeamListDto[]> {
+    getUserTeamByUserId(userId: number): Observable<UserTeamListDto[]> {
       return this.http.get<UserTeamListDto[]>(
-        `${this.baseUrl}/by-department/?departmentId=${departmentId}`
+        `${this.baseUrl}/?user=${userId}`
       );
     }
     
