@@ -19,9 +19,8 @@
   [title]="'Job Title'"
   [fields]="jobTitleFields"
   [model]="selectedJobTitle"
-  (saved)="updateJobTitle($event)"
-  (deleted)="deleteJobTitle($event)"
   (saved)="saveJobTitle($event)"
   (updated)="updateJobTitle($event)"
+  (deleted)="deleteJobTitle($event)"
   (closed)="showDrawer = false">
 </app-drawer-form>

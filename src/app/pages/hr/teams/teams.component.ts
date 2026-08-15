@@ -6,46 +6,61 @@ import { TeamsService } from '../../../services/hr/teams.service';
 import { GenericTableComponent } from '../../../shared/components/generic-table/generic-table.component';
 import { DrawerFormComponent } from '../../../shared/components/drawer-form/drawer-form.component';
 import { FormField } from '../../../shared/models/form-field.model';
+import { DepartmentsService } from '../../../services/hr/departments.service';
+import { Department } from '../../../models/hr/department';
 
 @Component({
   selector: 'app-teams',
-  imports: [CommonModule, RouterModule,GenericTableComponent,DrawerFormComponent],
+  imports: [CommonModule, RouterModule, GenericTableComponent, DrawerFormComponent],
   templateUrl: './teams.component.html',
   styleUrl: './teams.component.css'
 })
 export class TeamsComponent implements OnInit {
 
   teams: Team[] = [];
+  departments: Department[] = [];
 
   teamsService = inject(TeamsService);
+  departmentsService = inject(DepartmentsService);
 
   showDrawer = false;
-
   selectedTeam: any = {};
-
   mode: 'create' | 'update' = 'create';
 
   ngOnInit(): void {
     this.loadTeams();
+    this.loadDepartments();
   }
-teamFields: FormField[] = [
-  { key: 'teamName', label: 'Team Name', type: 'text' },
-  { key: 'description', label: 'Description', type: 'text' },
-  { key: 'departmentName', label: 'DepartmentName', type: 'text' }
-];
-  // ================= FORM CONFIG =================
- teamColumns = [
-  { key: 'teamName', label: 'Team Name' },
-  { key: 'description', label: 'Description' },
-  { key: 'departmentName', label: 'DepartmentName', type: 'text' }
-];
+
+  teamFields: FormField[] = [
+    { key: 'teamName', label: 'Team Name', type: 'text' },
+    { key: 'description', label: 'Description', type: 'text' },
+    { key: 'departmentName', label: 'Department', type: 'dropdown', options: [], optionValue: 'departmentName', optionLabel: 'departmentName' }
+  ];
+
+  teamColumns = [
+    { key: 'teamName', label: 'Team Name' },
+    { key: 'description', label: 'Description' },
+    { key: 'departmentName', label: 'DepartmentName', type: 'text' }
+  ];
 
   loadTeams(): void {
     this.teamsService.getAll().subscribe(data => {
       this.teams = data;
     });
   }
-   createJobTitle(): void {
+
+  loadDepartments(): void {
+    this.departmentsService.getAll().subscribe(data => {
+      this.departments = data;
+      const field = this.teamFields.find(x => x.key === 'departmentName');
+      if (field) {
+        field.options = data;
+      }
+    });
+  }
+
+  createTeam(): void {
     this.mode = 'create';
     this.selectedTeam = {};
     this.showDrawer = true;
@@ -57,15 +72,26 @@ teamFields: FormField[] = [
     this.showDrawer = true;
   }
 
-  updateTeam(team: Team): void {
-    this.teamsService.update(team, ``).subscribe(() => {
+  saveTeam(team: Team): void {
+    this.teamsService.create(team).subscribe(newTeam => {
+      this.teams.push(newTeam);
+      this.showDrawer = false;
+    });
+  }
+
+  updateTeam(team: any): void {
+    const id = this.selectedTeam.id ?? this.selectedTeam.teamId;
+    this.teamsService.update({ ...this.selectedTeam, ...team, id }).subscribe(() => {
       this.loadTeams();
       this.showDrawer = false;
     });
   }
 
   deleteTeam(team: any): void {
-    this.teams = this.teams.filter(t => t !== team);
-    this.showDrawer = false;
+    const id = this.selectedTeam.id ?? this.selectedTeam.teamId;
+    this.teamsService.delete(id).subscribe(() => {
+      this.teams = this.teams.filter(t => (t.id ?? (t as any).teamId) !== id);
+      this.showDrawer = false;
+    });
   }
 }

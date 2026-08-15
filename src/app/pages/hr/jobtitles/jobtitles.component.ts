@@ -77,12 +77,13 @@ jobTitleColumns = [
     this.showDrawer = true;
   }
 
-  updateJobTitle(jobTitle: JobTitle & { id: string | number }): void {
-    this.jobTitlesService.update(jobTitle).subscribe(() => {
-      this.loadJobTitles();
-      this.showDrawer = false;
-    });
-  }
+ updateJobTitle(jobTitle: JobTitle & { id: string | number }): void {
+  const payload = { ...jobTitle, id: jobTitle.id ?? (jobTitle as any).jobTitleId };
+  this.jobTitlesService.update(payload).subscribe(() => {
+    this.loadJobTitles();
+    this.showDrawer = false;
+  });
+}
 
    saveJobTitle(jobtitle: JobTitleDto): void {
     this.jobTitlesService.CreateJobTitle(jobtitle).subscribe(newClient => {
@@ -95,8 +96,12 @@ jobTitleColumns = [
     this.loadJobTitles();
     this.loadDepartments();
   }
-  deleteJobTitle(jobTitle: any): void {
-    this.jobTitles = this.jobTitles.filter(j => j !== jobTitle);
+ 
+ deleteJobTitle(jobTitle: any): void {
+  const id = jobTitle.id ?? jobTitle.jobTitleId;
+  this.jobTitlesService.delete(id).subscribe(() => {
+    this.jobTitles = this.jobTitles.filter(j => (j.jobTitleId ?? (j as any).jobTitleId) !== id);
     this.showDrawer = false;
-  }
+  });
+}
 }

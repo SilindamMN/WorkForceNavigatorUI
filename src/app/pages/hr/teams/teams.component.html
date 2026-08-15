@@ -1,25 +1,22 @@
 <div class="jobtitles-wrapper">
-
-  <!-- GENERIC TABLE -->
   <app-generic-table
-      [showCreate]="true" 
+    [showCreate]="true"
     [data]="teams"
     [columns]="teamColumns"
     [pageSize]="10"
     (rowClick)="editTeamShowDrawer($event)"
-    (create)="createJobTitle()">
+    (create)="createTeam()">
   </app-generic-table>
-
 </div>
 
-<!-- DRAWER -->
 <app-drawer-form
   [isOpen]="showDrawer"
   [mode]="mode"
-  [title]="'Job Title'"
+  [title]="'Team'"
   [fields]="teamFields"
   [model]="selectedTeam"
-  (saved)="updateTeam($event)"
+  (saved)="saveTeam($event)"
+  (updated)="updateTeam($event)"
   (deleted)="deleteTeam($event)"
   (closed)="showDrawer = false">
 </app-drawer-form>

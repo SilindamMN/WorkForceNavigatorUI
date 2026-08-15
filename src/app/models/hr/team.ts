@@ -2,7 +2,7 @@ import { Department } from "./department";
 import { Project } from "./project";
 
 export class Team {
-  id?: number;
+  id: number;
   teamName: string;
   description: string;
   departmentId: number;
@@ -12,7 +12,7 @@ export class Team {
   projects: Project[];
 
   constructor() {
-    this.id = undefined;
+    this.id = 0;
     this.teamName = '';
     this.description = '';
     this.departmentId = 0;
@@ -23,11 +23,13 @@ export class Team {
 
 // DTO (for create/update)
 export class TeamDto {
+  id: number;
   teamName: string;
   description: string;
   departmentName: string;
 
   constructor() {
+    this.id = 0;
     this.teamName = '';
     this.description = '';
     this.departmentName = '';
