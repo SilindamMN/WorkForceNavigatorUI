@@ -38,12 +38,14 @@ export class ClientsComponent implements OnInit {
   ];
 
   // ================= FORM CONFIG =================
-  clientFields: FormField[] = [
-    { key: 'clientName', label: 'Client Name', type: 'text' },
-    { key: 'email', label: 'Email', type: 'email' },
-    { key: 'phone', label: 'Phone', type: 'text' },
-    { key: 'fax', label: 'Fax', type: 'text' }
-  ];
+clientFields: FormField[] = [
+  { key: 'clientName', label: 'Client Name', type: 'text' },
+  { key: 'email', label: 'Email', type: 'email' },
+  { key: 'phone', label: 'Phone', type: 'text' },
+  { key: 'fax', label: 'Fax', type: 'text' },
+  { key: 'departmentName', label: 'Department Name', type: 'text' },
+  { key: 'projectNames', label: 'Projects', type: 'text' }
+];
 
   ngOnInit(): void {
     this.loadClients();
@@ -77,8 +79,20 @@ export class ClientsComponent implements OnInit {
     this.showDrawer = false;
   }
 
+  getClientById(id: string): void {
+    this.clientService.getById(id).subscribe(client => {
+      this.selectedClient = client;
+      this.showDrawer = true;
+    });
+  }
+
+  editClientShowDrawer(client: any): void {
+    this.mode = 'update';
+    this.getClientById(client.id);
+    this.showDrawer = true;
+  }
+
   deleteClient(client: any): void {
-    console.log('DELETE:', client);
 
     this.clients = this.clients.filter(c => c !== client);
 
