@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GenericCrudService } from '../generic.service';
-import { AddMemberDto, Team, UserTeamListDto } from '../../models/hr/team';
+import { AddMemberDto, Team, TeamMemberDetailsDto, UserTeamListDto } from '../../models/hr/team';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -14,6 +14,12 @@ export class TeamsService extends GenericCrudService<Team> {
         `${this.baseUrl}/?user=${userId}`
       );
     }
+
+   getTeamMembersByTeamId(teamId: number): Observable<TeamMemberDetailsDto[]> {
+  return this.http.get<TeamMemberDetailsDto[]>(
+    `${this.baseUrl}/${teamId}/withdetails`
+  );
+}
     
     addMemberToTeam(request: AddMemberDto): Observable<any> {
   return this.http.post<any>(

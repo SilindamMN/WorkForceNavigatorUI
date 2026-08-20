@@ -1,8 +1,8 @@
 <div class="jobtitles-wrapper">
   <app-generic-table
-    [showCreate]="true"
     [data]="teams"
     [columns]="teamColumns"
+    [showCreate]="true"
     [pageSize]="10"
     (rowClick)="editTeamShowDrawer($event)"
     (create)="createTeam()">
@@ -16,7 +16,6 @@
   [fields]="teamFields"
   [model]="selectedTeam"
   (saved)="saveTeam($event)"
-  (updated)="updateTeam($event)"
   (deleted)="deleteTeam($event)"
   (closed)="showDrawer = false">
 </app-drawer-form>
