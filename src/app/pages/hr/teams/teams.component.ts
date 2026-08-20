@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Team } from '../../../models/hr/team';
+import { AddMemberDto, Team } from '../../../models/hr/team';
 import { TeamsService } from '../../../services/hr/teams.service';
 import { GenericTableComponent } from '../../../shared/components/generic-table/generic-table.component';
 import { DrawerFormComponent } from '../../../shared/components/drawer-form/drawer-form.component';
 import { FormField } from '../../../shared/models/form-field.model';
 import { DepartmentsService } from '../../../services/hr/departments.service';
 import { Department } from '../../../models/hr/department';
+import { UsersService } from '../../../services/hr/users.service';
 
 @Component({
   selector: 'app-teams',
@@ -19,9 +20,11 @@ export class TeamsComponent implements OnInit {
 
   teams: Team[] = [];
   departments: Department[] = [];
+  users: any[] = [];
 
   teamsService = inject(TeamsService);
   departmentsService = inject(DepartmentsService);
+  usersService = inject(UsersService);
 
   showDrawer = false;
   selectedTeam: any = {};
@@ -31,12 +34,14 @@ export class TeamsComponent implements OnInit {
     this.loadTeams();
     this.loadDepartments();
   }
-
-  teamFields: FormField[] = [
-    { key: 'teamName', label: 'Team Name', type: 'text' },
-    { key: 'description', label: 'Description', type: 'text' },
-    { key: 'departmentName', label: 'Department', type: 'dropdown', options: [], optionValue: 'departmentName', optionLabel: 'departmentName' }
-  ];
+teamFields: FormField[] = [
+  { key: 'teamName', label: 'Team Name', type: 'text' },
+  { key: 'description', label: 'Description', type: 'text' },
+  { key: 'departmentName', label: 'Department', type: 'dropdown', options: [], optionValue: 'departmentName', optionLabel: 'departmentName' },
+  { key: 'userId', label: 'Add Member', type: 'dropdown', options: [], optionValue: 'id', optionLabel: 'username' },
+  { key: 'members', label: 'Members', type: 'text' },
+  { key: 'projectList', label: 'Projects', type: 'text' }
+];
 
   teamColumns = [
     { key: 'teamName', label: 'Team Name' },
@@ -47,7 +52,6 @@ export class TeamsComponent implements OnInit {
   loadTeams(): void {
     this.teamsService.getAll().subscribe(data => {
       this.teams = data;
-    console.log("faka a"+'teams data:', data);
     });
   }
 
@@ -67,17 +71,36 @@ export class TeamsComponent implements OnInit {
     this.showDrawer = true;
   }
 
-  editTeamShowDrawer(team: any): void {
-    this.mode = 'update';
-    this.selectedTeam = { ...team };
+editTeamShowDrawer(team: any): void {
+  this.mode = 'update';
+
+  const teamId = team.id ?? team.teamId;
+
+  this.teamsService.getTeamMembersByTeamId(teamId).subscribe(data => {
+    const details = data?.[0];
+
+    this.selectedTeam = {
+      ...team,
+      members: details?.members
+        ?.map(member => `${member.firstName} ${member.lastName} (${member.jobTitle})`)
+        .join(', ') ?? '',
+      projectList: details?.projectList?.join(', ') ?? ''
+    };
+
+    console.log('Selected Team:', this.selectedTeam);
+
     this.showDrawer = true;
-  }
+  });
+}
 
   saveTeam(team: Team): void {
     this.teamsService.create(team).subscribe(newTeam => {
       this.teams.push(newTeam);
       this.showDrawer = false;
     });
+  }
+      getTeamMembersByTeamId(teamId: number): any {
+    return this.teamsService.getTeamMembersByTeamId(teamId);
   }
 
   updateTeam(team: any): void {
