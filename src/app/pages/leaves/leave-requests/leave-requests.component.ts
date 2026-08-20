@@ -43,6 +43,7 @@ authService = inject(AuthserviceService);
 
   ngOnInit(): void {
     this.loadRequests();
+    this.getLeaveAllocationsByUsername(this.authService.getUserFromStorage()?.username || '');
   }
 leaveRequestColumns = [
   { key: 'firstName', label: 'First Name' },
@@ -75,7 +76,7 @@ updateLeaveRequestFields: FormField[] = [
     options: [
       { label: 'Pending', value: 'Pending' },
       { label: 'Approved', value: 'Approved' },
-      { label: 'Rejected', value: 'Rejected' }
+      { label: 'Declined', value: 'Declined' }
     ]
   },
   { key: 'numberOfDays', label: 'Number of Days', type: 'number' }

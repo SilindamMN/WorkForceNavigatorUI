@@ -6,9 +6,8 @@ export class Team {
   teamName: string;
   description: string;
   departmentId: number;
-
   department?: Department;
-
+ departmentName?: string;
   projects: Project[];
 
   constructor() {
@@ -16,7 +15,7 @@ export class Team {
     this.teamName = '';
     this.description = '';
     this.departmentId = 0;
-
+   this.departmentName = '' ;
     this.projects = [];
   }
 }
